@@ -30,6 +30,9 @@
     <ClCompile Include="Guard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Archer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="People.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Guard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Archer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

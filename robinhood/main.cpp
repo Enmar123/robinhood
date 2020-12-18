@@ -18,6 +18,7 @@ int main() {
 	std::cout << "Hello World" << std::endl;
 	Map mymap = Map();
 	mymap.addGuard(5, 0);
+	mymap.addArcher(15, 16);
 	mymap.drawCmd();
 	while (true) {
 		mymap.update();

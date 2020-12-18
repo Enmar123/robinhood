@@ -1,4 +1,11 @@
 #pragma once
+
+struct Move {
+	int x = 0;
+	int y = 0;
+	unsigned int steps = 1;
+};
+
 class People {
 public:
 	People();

@@ -1,14 +1,7 @@
 #pragma once
+#include "People.h"
 #include <list>
 #include <string>
-
-#include "People.h"
-
-struct Move {
-    int x;
-    int y;
-    unsigned int steps;
-};
 
 class Guard :
     public People {
@@ -19,7 +12,7 @@ public:
     void update();
 
     std::string getSymbol();
-private:
+protected:
     std::list<Move> moves;
     std::list<Move> currentmoves;
     std::string symbol = "G";
