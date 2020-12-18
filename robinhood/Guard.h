@@ -12,7 +12,6 @@ public:
     void update();
 
 protected:
-    std::list<Move> moves;
-    std::list<Move> currentmoves;
+
 };
 

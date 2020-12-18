@@ -44,3 +44,21 @@ std::string People::getSymbol() {
 void People::update() {
 	// do nothing
 }
+
+void People::followMoves() {
+	if (currentmoves.size() != 0) {
+		if (currentmoves.front().steps != 0) {
+			x += currentmoves.front().x * speed;
+			y += currentmoves.front().y * speed;
+			currentmoves.front().steps -= 1;
+		}
+		else {
+			currentmoves.pop_front();
+			followMoves();
+		}
+	}
+	else {
+		currentmoves = moves;
+		followMoves();
+	}
+}

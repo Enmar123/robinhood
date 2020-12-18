@@ -1,4 +1,6 @@
 #pragma once
+
+#include<list>
 #include <string>
 
 struct Move {
@@ -14,6 +16,7 @@ public:
 	People(int x, int y, int width, int height);
 
 	void update();
+	void followMoves();
 
 	int getX();
 	int getY();
@@ -25,5 +28,8 @@ protected:
 	int width, height;
 	int speed;
 	std::string symbol;
+
+	std::list<Move> moves;
+	std::list<Move> currentmoves;
 };
 

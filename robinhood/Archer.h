@@ -4,10 +4,12 @@
 #include <string>
 
 class Archer :
-    public Guard {
+    public People {
 public:
     Archer();
     Archer(int x, int y);
+
+    void update();
 
 protected:
     

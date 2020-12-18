@@ -5,11 +5,14 @@ Map::Map() {
 }
 
 void Map::update() {
+	for (auto& archer : archers) {
+		archer.update();
+	}
 	for (auto& guard : guards) {
 		guard.update();
 	}
-	for (auto& archer : archers) {
-		archer.update();
+	for (auto& people : townsfolk) {
+		people.update();
 	}
 	for (auto& robin : robins) {
 		robin.update();
@@ -47,7 +50,7 @@ void Map::drawCmd() {
 			}
 			std::cout << icon;
 		}
-		std::cout << std::endl;
+		std::cout << "|" << std::endl;
 	}
 	std::cout << "   " << "--------------------" << std::endl;
 	std::cout << "Guard Pos =  " << guards.front().getX() << ", " << guards.front().getY() << std::endl;
