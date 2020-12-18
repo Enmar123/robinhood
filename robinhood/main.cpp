@@ -1,6 +1,8 @@
 #include <iostream>
 #include <windows.h>
 
+#include "Map.h"
+
 void testMapDisplay() {
 	std::cout << "--------" << std::endl;
 	std::cout << "|R GG  |" << std::endl;
@@ -14,9 +16,13 @@ void testMapDisplay() {
 
 int main() {
 	std::cout << "Hello World" << std::endl;
+	Map mymap = Map();
+	mymap.addGuard(5, 0);
+	mymap.drawCmd();
 	while (true) {
-		testMapDisplay();
-		Sleep(1000); //milliseconds
+		mymap.update();
+		mymap.drawCmd();
+		Sleep(250); //milliseconds
 	}
 	system("pause");
 	return 0;
