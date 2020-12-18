@@ -24,11 +24,13 @@ int main() {
 	mymap.addTownsfolk(8, 10);
 	mymap.addTownsfolk(13, 1);
 	mymap.addTownsfolk(16, 8);
+	mymap.addEnd(19, 19);
+
 	mymap.drawCmd();
-	while (true) {
+	while (mymap.gameIsAlive) {
 		mymap.update();
 		mymap.drawCmd();
-		Sleep(250); //milliseconds
+		Sleep(100); //milliseconds
 	}
 	system("pause");
 	return 0;

@@ -14,13 +14,20 @@ void Map::update() {
 	for (auto& people : townsfolk) {
 		people.update();
 	}
+	for (auto& end : ends) {
+		end.update();
+	}
 	for (auto& robin : robins) {
 		robin.update();
 	}
+	if (checkEnemyCollision())
+		gameOver();
 }
 
 void Map::drawCmd() {
-	std::cout <<"   " << "--------------------" << std::endl;
+	std::cout << "   " << "--------------------" << std::endl;
+	std::cout << "   " << "01234567890123456789" << std::endl;
+	std::cout << "   " << "--------------------" << std::endl;
 	for (int j = 0; j < size; j++) {
 		if (j < 10)
 			std::cout << "0" << j << "|";
@@ -43,6 +50,11 @@ void Map::drawCmd() {
 					icon = person.getSymbol();
 				}
 			}
+			for (auto& const end : ends) {
+				if (objOccupiesXY(i, j, end)) {
+					icon = end.getSymbol();
+				}
+			}
 			for (auto& const robin : robins) {
 				if (objOccupiesXY(i, j, robin)) {
 					icon = robin.getSymbol();
@@ -52,6 +64,8 @@ void Map::drawCmd() {
 		}
 		std::cout << "|" << std::endl;
 	}
+	std::cout << "   " << "--------------------" << std::endl;
+	std::cout << "   " << "01234567890123456789" << std::endl;
 	std::cout << "   " << "--------------------" << std::endl;
 	std::cout << "Guard Pos =  " << guards.front().getX() << ", " << guards.front().getY() << std::endl;
 	std::cout << "Archer Pos = " << archers.front().getX() << ", " << archers.front().getY() << std::endl;
@@ -71,4 +85,31 @@ void Map::addRobin(int x, int y) {
 
 void Map::addTownsfolk(int x, int y) {
 	townsfolk.push_back(People(x, y));
+}
+
+void Map::addEnd(int x, int y) {
+	ends.push_back(End(x, y));
+}
+
+bool Map::checkEnemyCollision() {
+	for (auto& const robin : robins) {
+		int x = robin.getX();
+		int y = robin.getY();
+		for (auto& const archer : archers) {
+			if (objOccupiesXY(x, y, archer)) {
+				return true;
+			}
+		}
+		for (auto& const guard : guards) {
+			if (objOccupiesXY(x, y, guard)) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+void Map::gameOver() {
+	gameIsAlive = false;
+	std::cout << "GAME OVER" << std::endl;
 }
