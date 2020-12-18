@@ -11,6 +11,9 @@ void Map::update() {
 	for (auto& archer : archers) {
 		archer.update();
 	}
+	for (auto& robin : robins) {
+		robin.update();
+	}
 }
 
 void Map::drawCmd() {
@@ -22,20 +25,24 @@ void Map::drawCmd() {
 			std::cout << j << "|";
 		for (int i = 0; i < size; i++) {
 			std::string icon = " ";
+			for (auto& const archer : archers) {
+				if (objOccupiesXY(i,j,archer)) {
+					icon = archer.getSymbol();
+				}
+			}
 			for (auto& const guard : guards) {
-				if (i >= guard.getX() &&
-					i < guard.getX() + guard.getWidth() &&
-					j >= guard.getY() &&
-					j < guard.getY() + guard.getHeight()) {
+				if (objOccupiesXY(i, j, guard)) {
 					icon = guard.getSymbol();
 				}	
 			}
-			for (auto& const archer : archers) {
-				if (i >= archer.getX() &&
-					i < archer.getX() + archer.getWidth() &&
-					j >= archer.getY() &&
-					j < archer.getY() + archer.getHeight()) {
-					icon = archer.getSymbol();
+			for (auto& const person : townsfolk) {
+				if (objOccupiesXY(i, j, person)) {
+					icon = person.getSymbol();
+				}
+			}
+			for (auto& const robin : robins) {
+				if (objOccupiesXY(i, j, robin)) {
+					icon = robin.getSymbol();
 				}
 			}
 			std::cout << icon;
@@ -53,4 +60,12 @@ void Map::addGuard(int x, int y) {
 
 void Map::addArcher(int x, int y) {
 	archers.push_back(Archer(x, y));
+}
+
+void Map::addRobin(int x, int y) {
+	robins.push_back(Robin(x, y));
+}
+
+void Map::addTownsfolk(int x, int y) {
+	townsfolk.push_back(People(x, y));
 }

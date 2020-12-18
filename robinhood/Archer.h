@@ -10,5 +10,6 @@ public:
     Archer(int x, int y);
 
 protected:
+    
 };
 

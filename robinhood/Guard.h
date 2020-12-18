@@ -11,10 +11,8 @@ public:
 
     void update();
 
-    std::string getSymbol();
 protected:
     std::list<Move> moves;
     std::list<Move> currentmoves;
-    std::string symbol = "G";
 };
 

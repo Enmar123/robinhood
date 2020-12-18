@@ -4,13 +4,14 @@ Guard::Guard() : People(0,0,2,2) {
 	moves = std::list<Move>({ Move{ 0,1,18 }, Move{ 0,-1,18 } });
 	currentmoves = moves;
 	speed = 1;
-
+	symbol = "G";
 }
 
 Guard::Guard(int x, int y) : People(x, y, 2, 2) {
 	moves = std::list<Move>({ Move{ 0,1,18 }, Move{ 0,-1,18 } });
 	currentmoves = moves;
 	speed = 1;
+	symbol = "G";
 }
 
 void Guard::update() {
@@ -31,6 +32,3 @@ void Guard::update() {
 	}
 }
 
-std::string Guard::getSymbol() {
-	return symbol;
-}

@@ -19,6 +19,11 @@ int main() {
 	Map mymap = Map();
 	mymap.addGuard(5, 0);
 	mymap.addArcher(15, 16);
+	mymap.addRobin(0, 0);
+	mymap.addTownsfolk(5, 16);
+	mymap.addTownsfolk(8, 10);
+	mymap.addTownsfolk(13, 1);
+	mymap.addTownsfolk(16, 8);
 	mymap.drawCmd();
 	while (true) {
 		mymap.update();

@@ -6,6 +6,12 @@ People::People() {
 	width = 1;
 	height = 1;
 	speed = 0;
+	symbol = "T";
+}
+
+People::People(int x, int y) : People() {
+	this->x = x;
+	this->y = y;
 }
 
 People::People(int x, int y, int w, int h) {
@@ -13,7 +19,6 @@ People::People(int x, int y, int w, int h) {
 	this->y = y;
 	this->width = w;
 	this->height = h;
-	speed = 0;
 }
 
 int People::getX() {
@@ -30,4 +35,12 @@ int People::getWidth() {
 
 int People::getHeight() {
 	return height;
+}
+
+std::string People::getSymbol() {
+	return symbol;
+}
+
+void People::update() {
+	// do nothing
 }
