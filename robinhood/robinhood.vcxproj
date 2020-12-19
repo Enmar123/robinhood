@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Archer.cpp" />
+    <ClCompile Include="CostMap.cpp" />
     <ClCompile Include="End.cpp" />
     <ClCompile Include="Guard.cpp" />
     <ClCompile Include="main.cpp" />
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Archer.h" />
+    <ClInclude Include="CostMap.h" />
     <ClInclude Include="End.h" />
     <ClInclude Include="Guard.h" />
     <ClInclude Include="Map.h" />

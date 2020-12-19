@@ -36,6 +36,9 @@
     <ClCompile Include="End.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CostMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="People.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="End.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CostMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
