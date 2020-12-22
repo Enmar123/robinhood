@@ -29,17 +29,36 @@ void Node::setParams(int x, int y, int t, Node* parent) {
 
 
 CostMap::CostMap() {
-	obstacleMap.fill(0);
-	resetNodeMap();
+	clearObstacleMap();
+	clearNodeMap();
 }
 
-void CostMap::resetNodeMap() {
-	for (int x = 0; x < 20; x++) {
-		for (int y = 0; y < 20; y++) {
-			for (int t = 0; t < 20; t++) {
+void CostMap::clearNodeMap() {
+	for (int x = 0; x < x_width; x++) {
+		for (int y = 0; y < y_width; y++) {
+			for (int t = 0; t < t_width; t++) {
 				//nodeMap[x, y, t].setParams(x, y, t, NULL);
 				nodeMap[x][y][t].setParams(x, y, t, NULL);
 			}
+		}
+	}
+}
+
+void CostMap::clearObstacleMap() {
+	for (int x = 0; x < x_width; x++) {
+		for (int y = 0; y < y_width; y++) {
+			for (int t = 0; t < t_width; t++) {
+				obstacleMap[t][y][x] = 0;
+			}
+		}
+	}
+}
+
+void CostMap::insertTestObstacle() {
+	int x = x_width / 2;
+	for (int y = 0; y < y_width/2; y++) {
+		for (int t = 0; t < t_width; t++) {
+			obstacleMap[t][y][x] = 1;
 		}
 	}
 }
@@ -119,19 +138,23 @@ void CostMap::calculateNeighborCosts(Node* node) {
 }
 
 // Returns valid neibours to a coordiante
+// BUG: currently returns all neighbors instead of just valid ones
 std::list<Node*> CostMap::getNeighbors(int x, int y, int t) {
 	std::list<Node*> neighbors;
-	std::list<Coord> coords = std::list<Coord>({ Coord{x, y, t + 1}, Coord{x + 1, y, t + 1}, Coord{x - 1, y, t + 1}, Coord{x, y + 1, t + 1}, Coord{x, y - 1, t + 1} });
+	std::list<Coord> coords = std::list<Coord>({ Coord{x, y, t + 1},Coord{x + 1, y, t + 1}, Coord{x - 1, y, t + 1}, Coord{x, y + 1, t + 1}, Coord{x, y - 1, t + 1} });
 	
 	for (auto& coord : coords) {
 		if (coord.t < t_width) {
-			if (0 <= coord.x < x_width && 0 <= coord.y < y_width && obstacleMap[coord.x, coord.y, coord.t] != 1 && !inClosedList(&nodeMap[coord.x][coord.y][coord.t])) {
-				//neighbors.push_back(&nodeMap[coord.x, coord.y, coord.t]);
+			if (0 <= coord.x < x_width && 
+				0 <= coord.y < y_width && 
+				obstacleMap[coord.t][coord.y][coord.x] != 1 &&
+				!inClosedList(&nodeMap[coord.x][coord.y][coord.t])) {
+
 				neighbors.push_back(&nodeMap[coord.x][coord.y][coord.t]);
 			}
 		}
 	}
-
+	std::cout << "Valid Neighbors = " << neighbors.size() << std::endl;
 	return neighbors;
 }
 
@@ -147,4 +170,30 @@ bool CostMap::inOpenList(Node* node) {
 		if (ptr == node) return true;
 	}
 	return false;
+}
+
+std::list<Node*> CostMap::getNodePath() {
+	std::list<Node*> nodePath;
+	nodePath.push_front(endNode);
+	Node* parent = endNode->parent;
+	while (parent != NULL) {
+		nodePath.push_front(parent);
+		parent = parent->parent;      // lol 
+	}
+	return nodePath;
+}
+
+void CostMap::printNodePath(std::list<Node*> nodes) {
+	for (auto& node : nodes) {
+		std::cout << "(" << node->x << ", " << node->y << ", " << node->t << ")" << std::endl;
+	}
+}
+
+void CostMap::printObstacleMap(int time_t) {
+	for (int y = 0 ; y < y_width ; y++) {
+		for (int x = 0 ; x < x_width ; x++) {
+			std::cout << obstacleMap[time_t][y][x];
+		}
+		std::cout << std::endl;
+	}
 }

@@ -31,11 +31,19 @@ public:
 	void calculatePath();
 	
 	//std::list<Move> getMoves();
-	//std::list<Node> getNodePath();
+	std::list<Node*> getNodePath();
+	void printNodePath(std::list<Node*> nodes);
+	void printObstacleMap(int time_t);
 
 
 	Node nodeMap[20][20][20];
-	//std::array<Node, (20, 20, 100)> nodeMap;
+	int obstacleMap[20][20][20];
+	//std::array<int, (20, 20, 20)> obstacleMap;
+	//std::array<std::array<std::array<int, 20>, 20>, 20> obstacleMap; // bitmap of obstacles through time (t,y,x)
+
+	void clearNodeMap();
+	void clearObstacleMap();
+	void insertTestObstacle();
 private:
 	int endX;
 	int endY;
@@ -44,7 +52,7 @@ private:
 	int y_width = 20;
 	int t_width = 20;
 
-	std::array<int, (0, 20, 100)> obstacleMap;
+	
 	std::list<Node*> open;
 	std::list<Node*> closed;
 	Node* endNode = NULL;
@@ -54,6 +62,6 @@ private:
 	void calculateNeighborCosts(Node* node);
 	bool inClosedList(Node* node);
 	bool inOpenList(Node* node);
-	void resetNodeMap();
+	
 };
 

@@ -70,7 +70,7 @@ void testCostMap() {
 	Node node3 = Node(); node3.f_cost = 3;
 	std::list<Node*> testlist = std::list<Node*>({ &node1, &node2, &node3 });
 	//testlist.sort();
-	testlist.sort([&](Node * lhs, Node * rhs) {return lhs->f_cost < rhs->f_cost; }); // Sort by f_cost, then h_cost
+	testlist.sort([](Node * lhs, Node * rhs) {return lhs->f_cost < rhs->f_cost; }); // Sort by f_cost, then h_cost
 	for (auto& item : testlist) {
 		std::cout << item->f_cost << std::endl;
 	}
@@ -78,11 +78,15 @@ void testCostMap() {
 	std::cout << "CostMap Test" << std::endl;
 	CostMap costmap = CostMap();
 	costmap.setStartEndPoint(0, 0, 0, 10);
-	//costmap.
-	std::cout << costmap.nodeMap[18][18][0].x << std::endl;
-	std::cout << costmap.nodeMap[18][18][0].y << std::endl;
-	std::cout << costmap.nodeMap[18][18][0].t << std::endl;
+	//std::cout << costmap.nodeMap[18][18][0].x << std::endl;
+	//std::cout << costmap.nodeMap[18][18][0].y << std::endl;
+	//std::cout << costmap.nodeMap[18][18][0].t << std::endl;
+	costmap.insertTestObstacle();
+	costmap.printObstacleMap(19);
+	std::cout << costmap.obstacleMap[0][0][0] << std::endl;
 	costmap.calculatePath();
+	std::list<Node*> nodePath = costmap.getNodePath();
+	costmap.printNodePath(nodePath);
 }
 
 int main() {
