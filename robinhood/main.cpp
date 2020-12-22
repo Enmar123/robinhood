@@ -83,6 +83,7 @@ void testCostMap() {
 	std::cout << costmap.obstacleMap[0][0][0] << std::endl;
 	costmap.calculatePath();
 	costmap.printNodePath();
+	costmap.runCmdVisualizer();
 }
 
 int main() {

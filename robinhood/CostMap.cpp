@@ -151,10 +151,10 @@ std::list<Node*> CostMap::getNeighbors(Node* node) {
 	std::list<Node*> neighbors;
 	std::list<Coord> coords = std::list<Coord>({ Coord{x, y, t + 1},Coord{x + 1, y, t + 1}, Coord{x - 1, y, t + 1}, Coord{x, y + 1, t + 1}, Coord{x, y - 1, t + 1} });
 	
-	std::cout << "Current Coords = " << t << ", " << y << ", " << x << std::endl;
+	//std::cout << "Current Coords = " << t << ", " << y << ", " << x << std::endl;
 	for (auto& coord : coords) {
 		if (coord.t < t_width) {
-			std::cout << "Neighbor Coords = " << coord.t << ", " <<  coord.y << ", " << coord.x << std::endl;
+			//std::cout << "Neighbor Coords = " << coord.t << ", " <<  coord.y << ", " << coord.x << std::endl;
 			//std::cout << "Obstacle Map = " << obstacleMap[coord.t][coord.y][coord.x] << std::endl;
 			if (0 <= coord.x && coord.x < x_width && 
 				0 <= coord.y && coord.y < y_width && 
@@ -206,5 +206,25 @@ void CostMap::printObstacleMap(int time_t) {
 			std::cout << obstacleMap[time_t][y][x];
 		}
 		std::cout << std::endl;
+	}
+}
+
+void CostMap::runCmdVisualizer() {
+	for (auto& node : path) {
+		for (int y = 0; y < y_width; y++) {
+			for (int x = 0; x < x_width; x++) {
+				if(y == node->y && x == node->x)
+					std::cout << "R";
+				else if (obstacleMap[node->t][y][x] == 1)
+					std::cout << "0";
+				else
+					std::cout << ".";
+			}
+			std::cout << std::endl;
+		}
+		Sleep(500);
+		std::cout << "                    " << std::endl;
+		std::cout << "                    " << std::endl;
+		std::cout << "                    " << std::endl;
 	}
 }

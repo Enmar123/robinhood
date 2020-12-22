@@ -2,6 +2,7 @@
 #include <array>
 #include <list>
 #include <iostream>
+#include <windows.h>
 
 struct Coord {
 	int x;
@@ -34,6 +35,7 @@ public:
 	
 	void printNodePath();
 	void printObstacleMap(int time_t);
+	void runCmdVisualizer();
 
 
 	Node nodeMap[20][20][20];
