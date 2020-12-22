@@ -77,16 +77,12 @@ void testCostMap() {
 
 	std::cout << "CostMap Test" << std::endl;
 	CostMap costmap = CostMap();
-	costmap.setStartEndPoint(0, 0, 0, 10);
-	//std::cout << costmap.nodeMap[18][18][0].x << std::endl;
-	//std::cout << costmap.nodeMap[18][18][0].y << std::endl;
-	//std::cout << costmap.nodeMap[18][18][0].t << std::endl;
+	costmap.setStartEndPoint(0, 0, 5, 0);
 	costmap.insertTestObstacle();
-	costmap.printObstacleMap(19);
+	costmap.printObstacleMap(0);
 	std::cout << costmap.obstacleMap[0][0][0] << std::endl;
 	costmap.calculatePath();
-	std::list<Node*> nodePath = costmap.getNodePath();
-	costmap.printNodePath(nodePath);
+	costmap.printNodePath();
 }
 
 int main() {

@@ -31,8 +31,8 @@ public:
 	void calculatePath();
 	
 	//std::list<Move> getMoves();
-	std::list<Node*> getNodePath();
-	void printNodePath(std::list<Node*> nodes);
+	
+	void printNodePath();
 	void printObstacleMap(int time_t);
 
 
@@ -55,13 +55,15 @@ private:
 	
 	std::list<Node*> open;
 	std::list<Node*> closed;
+	std::list<Node*> path;
 	Node* endNode = NULL;
 
-	std::list<Node*> getNeighbors(int x, int y, int t);
+	std::list<Node*> getNeighbors(Node* node);
 	
 	void calculateNeighborCosts(Node* node);
 	bool inClosedList(Node* node);
 	bool inOpenList(Node* node);
+	void backtrackNodePath();
 	
 };
 

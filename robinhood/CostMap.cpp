@@ -31,23 +31,23 @@ void Node::setParams(int x, int y, int t, Node* parent) {
 CostMap::CostMap() {
 	clearObstacleMap();
 	clearNodeMap();
+	endNode == NULL;
 }
 
 void CostMap::clearNodeMap() {
-	for (int x = 0; x < x_width; x++) {
+	for (int t = 0; t < t_width; t++) {
 		for (int y = 0; y < y_width; y++) {
-			for (int t = 0; t < t_width; t++) {
-				//nodeMap[x, y, t].setParams(x, y, t, NULL);
-				nodeMap[x][y][t].setParams(x, y, t, NULL);
+			for (int x = 0; x < x_width; x++) {
+				nodeMap[t][y][x].setParams(x, y, t, NULL);
 			}
 		}
 	}
 }
 
 void CostMap::clearObstacleMap() {
-	for (int x = 0; x < x_width; x++) {
+	for (int t = 0; t < t_width; t++) {
 		for (int y = 0; y < y_width; y++) {
-			for (int t = 0; t < t_width; t++) {
+			for (int x = 0; x < x_width; x++) {
 				obstacleMap[t][y][x] = 0;
 			}
 		}
@@ -55,9 +55,9 @@ void CostMap::clearObstacleMap() {
 }
 
 void CostMap::insertTestObstacle() {
-	int x = x_width / 2;
-	for (int y = 0; y < y_width/2; y++) {
-		for (int t = 0; t < t_width; t++) {
+	int x = 3;
+	for (int t = 0; t < t_width; t++) {
+		for (int y = 0; y < 3; y++) {
 			obstacleMap[t][y][x] = 1;
 		}
 	}
@@ -65,7 +65,7 @@ void CostMap::insertTestObstacle() {
 
 void CostMap::setStartEndPoint(int startX, int startY, int endX, int endY) {
 	//Node* startNode = &nodeMap[startX, startY, 0];
-	Node* startNode = &nodeMap[startX][startY][0];
+	Node* startNode = &nodeMap[0][startY][startX];
 	startNode->g_cost = 0;
 	startNode->h_cost = abs(endX - startX) + abs(endY - startY);
 	startNode->f_cost = startNode->g_cost + startNode->h_cost;
@@ -98,6 +98,10 @@ void CostMap::calculatePath() {
 	
 	Node* current;
 	while (true) {
+		if (open.size() == 0) {
+			std::cout << "No path To Goal (in specified timeframe)" << std::endl;
+			return;
+		}
 		std::cout << "Len Open =" << open.size() << std::endl;
 		open.sort([](Node* lhs, Node* rhs) {return (lhs->f_cost < rhs->f_cost || (lhs->f_cost == rhs->f_cost && lhs->h_cost < rhs->h_cost));});
 		current = open.front();
@@ -106,6 +110,7 @@ void CostMap::calculatePath() {
 		open.pop_front();
 		if (current->x == endX && current->y == endY) { //ending criteria
 			endNode = current;
+			backtrackNodePath();
 			std::cout << "End Node Reached" << std::endl;
 			return;
 		}
@@ -115,7 +120,7 @@ void CostMap::calculatePath() {
 }
 
 void CostMap::calculateNeighborCosts(Node* node) {
-	std::list<Node*> neighbors = getNeighbors(node->x, node->y, node->t);
+	std::list<Node*> neighbors = getNeighbors(node);
 	for (auto& neighbor : neighbors) {
 		Node newNode = *neighbor;
 		newNode.parent = node;
@@ -138,19 +143,25 @@ void CostMap::calculateNeighborCosts(Node* node) {
 }
 
 // Returns valid neibours to a coordiante
-// BUG: currently returns all neighbors instead of just valid ones
-std::list<Node*> CostMap::getNeighbors(int x, int y, int t) {
+// BUG: currently returns obstacle neighbors
+std::list<Node*> CostMap::getNeighbors(Node* node) {
+	int x = node->x;
+	int y = node->y;
+	int t = node->t;
 	std::list<Node*> neighbors;
 	std::list<Coord> coords = std::list<Coord>({ Coord{x, y, t + 1},Coord{x + 1, y, t + 1}, Coord{x - 1, y, t + 1}, Coord{x, y + 1, t + 1}, Coord{x, y - 1, t + 1} });
 	
+	std::cout << "Current Coords = " << t << ", " << y << ", " << x << std::endl;
 	for (auto& coord : coords) {
 		if (coord.t < t_width) {
-			if (0 <= coord.x < x_width && 
-				0 <= coord.y < y_width && 
-				obstacleMap[coord.t][coord.y][coord.x] != 1 &&
-				!inClosedList(&nodeMap[coord.x][coord.y][coord.t])) {
+			std::cout << "Neighbor Coords = " << coord.t << ", " <<  coord.y << ", " << coord.x << std::endl;
+			//std::cout << "Obstacle Map = " << obstacleMap[coord.t][coord.y][coord.x] << std::endl;
+			if (0 <= coord.x && coord.x < x_width && 
+				0 <= coord.y && coord.y < y_width && 
+				(obstacleMap[coord.t][coord.y][coord.x] != 1) &&
+				!inClosedList(&nodeMap[coord.t][coord.y][coord.x])) {
 
-				neighbors.push_back(&nodeMap[coord.x][coord.y][coord.t]);
+				neighbors.push_back(&nodeMap[coord.t][coord.y][coord.x]);
 			}
 		}
 	}
@@ -172,19 +183,19 @@ bool CostMap::inOpenList(Node* node) {
 	return false;
 }
 
-std::list<Node*> CostMap::getNodePath() {
-	std::list<Node*> nodePath;
-	nodePath.push_front(endNode);
-	Node* parent = endNode->parent;
-	while (parent != NULL) {
-		nodePath.push_front(parent);
-		parent = parent->parent;      // lol 
+void CostMap::backtrackNodePath() {
+	if (endNode != NULL) {
+		path.push_front(endNode);
+		Node* parent = endNode->parent;
+		while (parent != NULL) {
+			path.push_front(parent);
+			parent = parent->parent;     // lol 
+		}
 	}
-	return nodePath;
 }
 
-void CostMap::printNodePath(std::list<Node*> nodes) {
-	for (auto& node : nodes) {
+void CostMap::printNodePath() {
+	for (auto& node : path) {
 		std::cout << "(" << node->x << ", " << node->y << ", " << node->t << ")" << std::endl;
 	}
 }
