@@ -1,5 +1,6 @@
 #pragma once
 #include <list>
+#include <vector>
 #include <iostream>
 
 #include "People.h"
@@ -21,8 +22,12 @@ public:
 	void addRobin(int x, int y);
 	void addTownsfolk(int x, int y);
 	void addEnd(int x, int y);
+
+	std::vector<std::vector<std::vector<int>>> getObstacleMap(int time);
 private:
-	unsigned int size;
+	unsigned int x_width;
+	unsigned int y_width;
+	unsigned int time_step;
 	std::list<Robin> robins;
 	std::list<Guard> guards;
 	std::list<Archer> archers;

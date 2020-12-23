@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <array>
 #include <list>
+#include <vector>
 
 #include "Map.h"
 #include "CostMap.h"
@@ -77,7 +78,7 @@ void testCostMap() {
 
 	std::cout << "CostMap Test" << std::endl;
 	CostMap costmap = CostMap();
-	costmap.setStartEndPoint(0, 0, 5, 0);
+	costmap.setStartEndPoint(0, 0, 19, 0);
 	costmap.insertTestObstacle();
 	costmap.printObstacleMap(0);
 	std::cout << costmap.obstacleMap[0][0][0] << std::endl;
@@ -87,23 +88,30 @@ void testCostMap() {
 }
 
 int main() {
-	std::cout << "Hello World" << std::endl;
-	testArrays();
-	testSort();
-	testCostMap();
+	//std::cout << "Hello World" << std::endl;
+	//testArrays();
+	//testSort();
+	//testCostMap();
+	
+	Map mymap = Map();
+	mymap.addGuard(5, 0);
+	mymap.addArcher(15, 16);
+	mymap.addRobin(0, 0);
+	mymap.addTownsfolk(5, 16);
+	mymap.addTownsfolk(8, 10);
+	mymap.addTownsfolk(13, 1);
+	mymap.addTownsfolk(16, 8);
+	mymap.addEnd(19, 19);
 
-	
-	//costmap.calculatePath();
-	
-	//Map mymap = Map();
-	//mymap.addGuard(5, 0);
-	//mymap.addArcher(15, 16);
-	//mymap.addRobin(0, 0);
-	//mymap.addTownsfolk(5, 16);
-	//mymap.addTownsfolk(8, 10);
-	//mymap.addTownsfolk(13, 1);
-	//mymap.addTownsfolk(16, 8);
-	//mymap.addEnd(19, 19);
+	std::vector<std::vector<std::vector<int>>> obstacleMap;
+	obstacleMap = mymap.getObstacleMap(70);
+
+	CostMap costmap = CostMap();
+	costmap.loadObstacles(obstacleMap);
+	costmap.setStartEndPoint(0, 0, 19, 19);
+	costmap.calculatePath();
+	costmap.printNodePath();
+	costmap.runCmdVisualizer();
 
 	//mymap.drawCmd();
 	//while (mymap.gameIsAlive) {

@@ -29,9 +29,31 @@ void Node::setParams(int x, int y, int t, Node* parent) {
 
 
 CostMap::CostMap() {
+	initObstacleMap();
 	clearObstacleMap();
+	initNodeMap();
 	clearNodeMap();
 	endNode == NULL;
+}
+
+void CostMap::initObstacleMap() {
+	obstacleMap.resize(t_width);
+	for (auto& arrY : obstacleMap) {
+		arrY.resize(y_width);
+		for (auto& arrX : arrY) {
+			arrX.resize(x_width);
+		}
+	}
+}
+
+void CostMap::initNodeMap() {
+	nodeMap.resize(t_width);
+	for (auto& arrY : nodeMap) {
+		arrY.resize(y_width);
+		for (auto& arrX : arrY) {
+			arrX.resize(x_width);
+		}
+	}
 }
 
 void CostMap::clearNodeMap() {
@@ -55,10 +77,11 @@ void CostMap::clearObstacleMap() {
 }
 
 void CostMap::insertTestObstacle() {
-	int x = 3;
+	int x_pos = 3;
+	int height = 17;
 	for (int t = 0; t < t_width; t++) {
-		for (int y = 0; y < 3; y++) {
-			obstacleMap[t][y][x] = 1;
+		for (int y = 0; y < height; y++) {
+			obstacleMap[t][y][x_pos] = 1;
 		}
 	}
 }
@@ -102,7 +125,7 @@ void CostMap::calculatePath() {
 			std::cout << "No path To Goal (in specified timeframe)" << std::endl;
 			return;
 		}
-		std::cout << "Len Open =" << open.size() << std::endl;
+		//std::cout << "Len Open =" << open.size() << std::endl;
 		open.sort([](Node* lhs, Node* rhs) {return (lhs->f_cost < rhs->f_cost || (lhs->f_cost == rhs->f_cost && lhs->h_cost < rhs->h_cost));});
 		current = open.front();
 		std::cout << "Current Pos = (" << current->x << ", " << current->y << ", " << current->t << ")" << std::endl;
@@ -211,20 +234,26 @@ void CostMap::printObstacleMap(int time_t) {
 
 void CostMap::runCmdVisualizer() {
 	for (auto& node : path) {
+		std::cout << "                    " << std::endl;
+		std::cout << "                    " << std::endl;
+		std::cout << "                    " << std::endl;
 		for (int y = 0; y < y_width; y++) {
 			for (int x = 0; x < x_width; x++) {
-				if(y == node->y && x == node->x)
+				if(y == endY && x == endX)
+					std::cout << "E";
+				else if(y == node->y && x == node->x)
 					std::cout << "R";
 				else if (obstacleMap[node->t][y][x] == 1)
-					std::cout << "0";
+					std::cout << "1";
 				else
 					std::cout << ".";
 			}
 			std::cout << std::endl;
 		}
 		Sleep(500);
-		std::cout << "                    " << std::endl;
-		std::cout << "                    " << std::endl;
-		std::cout << "                    " << std::endl;
 	}
+}
+
+void CostMap::loadObstacles(std::vector<std::vector<std::vector<int>>> map) {
+	obstacleMap = map;
 }

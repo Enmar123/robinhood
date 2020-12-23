@@ -1,10 +1,13 @@
 #include "Map.h"
 
 Map::Map() {
-	size = 20;
+	x_width = 20;
+	y_width = 20;
+	time_step = 0;
 }
 
 void Map::update() {
+	time_step++;
 	for (auto& archer : archers) {
 		archer.update();
 	}
@@ -25,16 +28,12 @@ void Map::update() {
 }
 
 void Map::drawCmd() {
-	std::cout << "   " << "--------------------" << std::endl;
-	std::cout << "   " << "01234567890123456789" << std::endl;
-	std::cout << "   " << "--------------------" << std::endl;
-	for (int j = 0; j < size; j++) {
-		if (j < 10)
-			std::cout << "0" << j << "|";
-		else
-			std::cout << j << "|";
-		for (int i = 0; i < size; i++) {
-			std::string icon = " ";
+	std::cout << "                    " << std::endl;
+	std::cout << "                    " << std::endl;
+	std::cout << "                    " << std::endl;
+	for (int j = 0; j < y_width; j++) {
+		for (int i = 0; i < x_width; i++) {
+			std::string icon = ".";
 			for (auto& const archer : archers) {
 				if (objOccupiesXY(i,j,archer)) {
 					icon = archer.getSymbol();
@@ -62,13 +61,41 @@ void Map::drawCmd() {
 			}
 			std::cout << icon;
 		}
-		std::cout << "|" << std::endl;
+		std::cout << std::endl;
 	}
-	std::cout << "   " << "--------------------" << std::endl;
-	std::cout << "   " << "01234567890123456789" << std::endl;
-	std::cout << "   " << "--------------------" << std::endl;
-	std::cout << "Guard Pos =  " << guards.front().getX() << ", " << guards.front().getY() << std::endl;
-	std::cout << "Archer Pos = " << archers.front().getX() << ", " << archers.front().getY() << std::endl;
+}
+
+std::vector<std::vector<std::vector<int>>> Map::getObstacleMap(int time) {
+	// Initialize vector
+	std::vector<std::vector<std::vector<int>>> obstacleMap;
+	obstacleMap.resize(time);
+	for (auto& arrY : obstacleMap) {
+		arrY.resize(y_width);
+		for (auto& arrX : arrY) {
+			arrX.resize(x_width);
+		}
+	}
+	// Fill vector
+	for (int t = 0; t < time; t++) {
+		for (int y = 0; y < y_width; y++) {
+			for (int x = 0; x < x_width; x++) {
+				for (auto& const archer : archers) {
+					if (objOccupiesXY(x, y, archer)) {
+						obstacleMap[t][y][x] = 1;
+						break;
+					}
+				}
+				for (auto& const guard : guards) {
+					if (objOccupiesXY(x, y, guard)) {
+						obstacleMap[t][y][x] = 1;
+						break;
+					}
+				}
+			}
+		}
+		update();
+	}
+	return obstacleMap;
 }
 
 void Map::addGuard(int x, int y) {
