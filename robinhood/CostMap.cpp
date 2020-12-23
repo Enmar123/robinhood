@@ -31,8 +31,8 @@ void Node::setParams(int x, int y, int t, Node* parent) {
 CostMap::CostMap() {
 	initObstacleMap();
 	clearObstacleMap();
-	initNodeMap();
-	clearNodeMap();
+	//initNodeMap();
+	//clearNodeMap();
 	endNode == NULL;
 }
 
@@ -46,25 +46,25 @@ void CostMap::initObstacleMap() {
 	}
 }
 
-void CostMap::initNodeMap() {
-	nodeMap.resize(t_width);
-	for (auto& arrY : nodeMap) {
-		arrY.resize(y_width);
-		for (auto& arrX : arrY) {
-			arrX.resize(x_width);
-		}
-	}
-}
-
-void CostMap::clearNodeMap() {
-	for (int t = 0; t < t_width; t++) {
-		for (int y = 0; y < y_width; y++) {
-			for (int x = 0; x < x_width; x++) {
-				nodeMap[t][y][x].setParams(x, y, t, NULL);
-			}
-		}
-	}
-}
+//void CostMap::initNodeMap() {
+//	nodeMap.resize(t_width);
+//	for (auto& arrY : nodeMap) {
+//		arrY.resize(y_width);
+//		for (auto& arrX : arrY) {
+//			arrX.resize(x_width);
+//		}
+//	}
+//}
+//
+//void CostMap::clearNodeMap() {
+//	for (int t = 0; t < t_width; t++) {
+//		for (int y = 0; y < y_width; y++) {
+//			for (int x = 0; x < x_width; x++) {
+//				nodeMap[t][y][x].setParams(x, y, t, NULL);
+//			}
+//		}
+//	}
+//}
 
 void CostMap::clearObstacleMap() {
 	for (int t = 0; t < t_width; t++) {
@@ -88,7 +88,7 @@ void CostMap::insertTestObstacle() {
 
 void CostMap::setStartEndPoint(int startX, int startY, int endX, int endY) {
 	//Node* startNode = &nodeMap[startX, startY, 0];
-	Node* startNode = &nodeMap[0][startY][startX];
+	Node* startNode = new Node(startX, startY, 0);
 	startNode->g_cost = 0;
 	startNode->h_cost = abs(endX - startX) + abs(endY - startY);
 	startNode->f_cost = startNode->g_cost + startNode->h_cost;
@@ -98,6 +98,10 @@ void CostMap::setStartEndPoint(int startX, int startY, int endX, int endY) {
 	//std::cout << "StartNode = (" << startNode->x << ", " << startNode->y << ")" << std::endl;
 	std::cout << "Start = (" << startX << ", " << startY << ")" << std::endl;
 	std::cout << "End   = (" << this->endX << ", " << this->endY << ")" << std::endl;
+}
+
+void CostMap::addSubGoal(int x, int y) {
+	subGoals.push_back(Point{ x,y,0 });
 }
 
 // used for sorting nodes by cost
@@ -172,19 +176,19 @@ std::list<Node*> CostMap::getNeighbors(Node* node) {
 	int y = node->y;
 	int t = node->t;
 	std::list<Node*> neighbors;
-	std::list<Coord> coords = std::list<Coord>({ Coord{x, y, t + 1},Coord{x + 1, y, t + 1}, Coord{x - 1, y, t + 1}, Coord{x, y + 1, t + 1}, Coord{x, y - 1, t + 1} });
+	std::list<Point> points = std::list<Point>({ Point{x, y, t + 1},Point{x + 1, y, t + 1}, Point{x - 1, y, t + 1}, Point{x, y + 1, t + 1}, Point{x, y - 1, t + 1} });
 	
-	//std::cout << "Current Coords = " << t << ", " << y << ", " << x << std::endl;
-	for (auto& coord : coords) {
-		if (coord.t < t_width) {
-			//std::cout << "Neighbor Coords = " << coord.t << ", " <<  coord.y << ", " << coord.x << std::endl;
-			//std::cout << "Obstacle Map = " << obstacleMap[coord.t][coord.y][coord.x] << std::endl;
-			if (0 <= coord.x && coord.x < x_width && 
-				0 <= coord.y && coord.y < y_width && 
-				(obstacleMap[coord.t][coord.y][coord.x] != 1) &&
-				!inClosedList(&nodeMap[coord.t][coord.y][coord.x])) {
+	//std::cout << "Current points = " << t << ", " << y << ", " << x << std::endl;
+	for (auto& point : points) {
+		if (point.t < t_width) {
+			//std::cout << "Neighbor points = " << point.t << ", " <<  point.y << ", " << point.x << std::endl;
+			//std::cout << "Obstacle Map = " << obstacleMap[point.t][point.y][point.x] << std::endl;
+			if (0 <= point.x && point.x < x_width && 
+				0 <= point.y && point.y < y_width && 
+				(obstacleMap[point.t][point.y][point.x] != 1) &&
+				!inClosedListByComponents(point.t, point.y, point.x)) {
 
-				neighbors.push_back(&nodeMap[coord.t][coord.y][coord.x]);
+				neighbors.push_back(new Node(point.x, point.y, point.t));
 			}
 		}
 	}
@@ -198,6 +202,15 @@ bool CostMap::inClosedList(Node* node) {
 	}
 	return false;
 }
+
+bool CostMap::inClosedListByComponents(int t, int y, int x) {
+	for (auto& node : closed) {
+		if (node->x == x && node->y == y && node->t == t)
+			return true;
+	}
+	return false;
+}
+
 
 bool CostMap::inOpenList(Node* node) {
 	for (auto& ptr : open) {
@@ -250,7 +263,7 @@ void CostMap::runCmdVisualizer() {
 			}
 			std::cout << std::endl;
 		}
-		Sleep(500);
+		Sleep(250);
 	}
 }
 

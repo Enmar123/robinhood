@@ -30,7 +30,7 @@ void testArrays() {
 	std::cout << "Map[2,2] = " << map1[2, 2] << std::endl;
 }
 
-struct Point {
+struct TestPoint {
 	int x;
 	int y;
 };
@@ -39,12 +39,12 @@ struct Point {
 
 void testSort() {
 	std::cout << "Test Sort" << std::endl;
-	std::list<Point> mylist = std::list<Point>({ Point{3,2}, Point{0,1}, Point{0,0}, Point{0,1} });
+	std::list<TestPoint> mylist = std::list<TestPoint>({ TestPoint{3,2}, TestPoint{0,1}, TestPoint{0,0}, TestPoint{0,1} });
 	for (auto item : mylist) {
 		std::cout << item.y << ", ";
 	}
 	std::cout << std::endl;
-	mylist.sort([](Point lhs, Point rhs) {return lhs.y < rhs.y; });
+	mylist.sort([](TestPoint lhs, TestPoint rhs) {return lhs.y < rhs.y; });
 	//mylist.sort();
 	for (auto item : mylist) {
 		std::cout << item.y << ", ";
@@ -104,7 +104,7 @@ int main() {
 	mymap.addEnd(19, 19);
 
 	std::vector<std::vector<std::vector<int>>> obstacleMap;
-	obstacleMap = mymap.getObstacleMap(70);
+	obstacleMap = mymap.getObstacleMap(100);
 
 	CostMap costmap = CostMap();
 	costmap.loadObstacles(obstacleMap);
@@ -112,6 +112,7 @@ int main() {
 	costmap.calculatePath();
 	costmap.printNodePath();
 	costmap.runCmdVisualizer();
+	costmap.printNodePath();
 
 	//mymap.drawCmd();
 	//while (mymap.gameIsAlive) {
