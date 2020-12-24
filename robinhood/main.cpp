@@ -78,7 +78,8 @@ void testCostMap() {
 
 	std::cout << "CostMap Test" << std::endl;
 	CostMap costmap = CostMap();
-	costmap.setStartEndPoint(0, 0, 19, 0);
+	costmap.addGoal(0, 0);
+	costmap.addGoal(19, 19);
 	costmap.insertTestObstacle();
 	costmap.printObstacleMap(0);
 	std::cout << costmap.obstacleMap[0][0][0] << std::endl;
@@ -108,11 +109,19 @@ int main() {
 
 	CostMap costmap = CostMap();
 	costmap.loadObstacles(obstacleMap);
-	costmap.setStartEndPoint(0, 0, 19, 19);
+	//costmap.setGoalPoints(std::list<Point>({ Point{0,0,0}, Point{5,12,0}, Point{8,10,0}, Point{13,1,0} });
+	costmap.addGoal(0, 0);
+	costmap.addGoal(5, 12);
+	costmap.addGoal(8, 10);
+	costmap.addGoal(13, 1);
+	costmap.addGoal(16, 8);
+	costmap.addGoal(19, 19);
+	//costmap.makeGoalPaths();
+	costmap.printGoalPath();
 	costmap.calculatePath();
 	costmap.printNodePath();
 	costmap.runCmdVisualizer();
-	costmap.printNodePath();
+	//costmap.printNodePath();
 
 	//mymap.drawCmd();
 	//while (mymap.gameIsAlive) {

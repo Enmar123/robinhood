@@ -29,8 +29,10 @@ class CostMap {
 public:
 	CostMap();
 	
-	void setStartEndPoint(int startX, int startY, int endX, int endY);
+	void setGoalPoints(std::list<Point> goals); // includes the start point, eg: std::list<>({Point{0,0}, Point{19,19}}
+	void setStartPoint(int startX, int startY);
 	void addSubGoal(int x, int y);
+	void addGoal(int x, int y);
 	void calculatePath();
 	
 	void loadObstacles(std::vector<std::vector<std::vector<int>>> obstalceMap);
@@ -38,7 +40,9 @@ public:
 	
 	void printNodePath();
 	void printObstacleMap(int time_t);
+	void printGoalPath();
 	void runCmdVisualizer();
+	void makeGoalPaths();
 
 	
 	std::vector<std::vector<std::vector<int>>> obstacleMap;
@@ -48,14 +52,18 @@ public:
 	void clearObstacleMap();
 	void insertTestObstacle();
 private:
-	int endX;
-	int endY;
+	//int startX, startY;
+	//int endX, endY;
 
 	int x_width = 20;
 	int y_width = 20;
 	int t_width = 100;
 
-	std::list<Point> subGoals;
+	std::list<Point> goals;  // will try and reach each goal sequentially
+	std::list<Point> goalsSaved;
+
+	std::list<Point> subGoals;	// list of subgoal points to reach
+	std::list<std::list<Point>> goalPaths; // All path permutations to iterate through
 
 	std::list<Node*> open;
 	std::list<Node*> closed;
@@ -72,6 +80,10 @@ private:
 	bool inClosedListByComponents(int t, int y, int x);
 	bool inOpenList(Node* node);
 	void backtrackNodePath();
+	
+	//void permute(std::list<Point> subGoals, std::list<Point> goalPath);
+
+	int getHeuristic(int x, int y);
 	
 };
 
