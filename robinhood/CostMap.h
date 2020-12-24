@@ -21,6 +21,8 @@ public:
 	void loadObstacleMap(std::vector<std::vector<std::vector<bool>>> map);
 	void makeStartNode();
 	
+	std::list<Point> getPointPath();
+	
 	void printNodePath();
 	void printObstacleMap(int time_t);
 	void printGoalPath();
@@ -38,6 +40,7 @@ private:
 	int x_width = 20;
 	int y_width = 20;
 	int t_width = 100;
+	int sleepms = 250;
 
 	std::list<Point> goals;  // will try and reach each goal sequentially
 	

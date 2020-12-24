@@ -24,6 +24,11 @@ public:
 	void addTownsfolk(int x, int y);
 	void addEnd(int x, int y);
 
+	Robin const& getRobin();
+	std::list<People> getTownsfolk();
+	End getEnd();
+	void setRobinPath(std::list<Point> points);
+
 	void update();
 	void drawCmd();
 	void runCmdVisualizer();

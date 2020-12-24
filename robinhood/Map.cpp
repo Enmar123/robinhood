@@ -44,8 +44,23 @@ void Map::reset() {
 	time_step = 0;
 }
 
+Robin const& Map::getRobin() {
+	return robins.front();
+}
+
+std::list<People> Map::getTownsfolk() {
+	return townsfolk;
+}
+
+End Map::getEnd() {
+	return ends.front();
+}
+
+void Map::setRobinPath(std::list<Point> points) {
+	robins.front().setSteps(points);
+}
+
 void Map::update() {
-	time_step++;
 	if (time_step < time_step_max) {
 		for (auto& archer : archers) {
 			archer.update();
@@ -107,6 +122,7 @@ void Map::drawCmd() {
 		std::cout << std::endl;
 	}
 	//std::cout << "Robin Life = " << robinIsAlive << std::endl;
+	std::cout << "Time Step = " << time_step << std::endl;
 	std::cout << "Townsfolk Rescued = " << townsfolkRescued << std::endl;
 }
 
@@ -152,11 +168,13 @@ void Map::checkCollisions() {
 		for (auto const&  archer : archers) {
 			if (objOccupiesXY(x, y, archer)) {
 				robinIsAlive = false;
+				gameIsAlive = false;
 			}
 		}
 		for (auto const& guard : guards) {
 			if (objOccupiesXY(x, y, guard)) {
 				robinIsAlive = false;
+				gameIsAlive = false;
 			}
 		}
 		for (auto & townsperson: townsfolk) {
@@ -191,8 +209,9 @@ void Map::gameOver() {
 
 void Map::runCmdVisualizer() {
 	drawCmd();
-	Sleep(sleepms); //milliseconds
+	Sleep(sleepms);
 	while (gameIsAlive) {
+		time_step++;
 		update();
 		drawCmd();
 		Sleep(sleepms); //milliseconds

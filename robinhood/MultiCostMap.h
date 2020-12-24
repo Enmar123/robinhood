@@ -1,5 +1,6 @@
 #pragma once
 #include "costMap.h"
+#include "Map.h"
 
 
 class MultiCostMap {
@@ -10,9 +11,12 @@ public:
 	void setEnd(int x, int y);
 	void addSubgoal(int x, int y);
 	void loadObstacleMap(std::vector<std::vector<std::vector<bool>>> map);
+	void loadParams(Map& map);
 
 	void makeGoalPaths();
 	void makeCostMaps();
+
+	std::list<Point> getPath();
 
 	void runPathfinder();
 	void runCmdVisualizer();

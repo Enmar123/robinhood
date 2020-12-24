@@ -8,8 +8,9 @@ Robin::Robin() : People() {
 	speed = 1;
 	symbol = "R";
 
+	moves = std::list<Move>({ Move{ 0,0,1000 } }); // Timeout case
 	//moves = std::list<Move>({ Move{ 0,1,19 }, Move{ 1,0,19 },  Move{ 0,0,1000 } }); // moving and gameover
-	moves = std::list<Move>({ Move{ 0,1,19 }, Move{ 1,0,8 }, Move{ 0,0,4 }, Move{ 1,0,11 },  Move{ 0,0,1000 } }); // simple win case
+	//moves = std::list<Move>({ Move{ 0,1,19 }, Move{ 1,0,8 }, Move{ 0,0,4 }, Move{ 1,0,11 },  Move{ 0,0,1000 } }); // simple win case
 	currentmoves = moves;
 
 }
@@ -20,6 +21,8 @@ Robin::Robin(int x, int y) : Robin() {
 }
 
 void Robin::update() {
-	//x += 1;
-	followMoves();
+	if (loadedMoves)
+		followMoves();
+	else if (loadedSteps)
+		followSteps();
 }

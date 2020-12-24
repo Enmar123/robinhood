@@ -62,3 +62,22 @@ void People::followMoves() {
 		followMoves();
 	}
 }
+
+void People::followSteps() {
+	// If steps were provided && If we did not run out of steps
+	if (steps.size() != 0 && currentsteps.size() !=  0) {
+		x = currentsteps.front().x;
+		y = currentsteps.front().y;
+		currentsteps.pop_front();
+	}
+}
+
+void People::setSteps(std::list<Point> points) {
+	x = points.front().x;
+	y = points.front().y;
+	points.pop_front();
+	steps = points;
+	currentsteps = points;
+	loadedSteps = true;
+	loadedMoves = false;
+}

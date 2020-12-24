@@ -118,18 +118,12 @@ void runMultiCostMap(std::vector<std::vector<std::vector<bool>>> obstacleMap) {
 	mcm.setStart(0, 0);
 	mcm.setEnd(19, 19);
 	
-	//mcm.addSubgoal(5, 12);
-	//mcm.addSubgoal(8, 10);
-	//mcm.addSubgoal(13, 1);
-	//mcm.addSubgoal(16, 8);
+	mcm.addSubgoal(5, 12);
+	mcm.addSubgoal(8, 10);
+	mcm.addSubgoal(13, 1);
+	mcm.addSubgoal(16, 8);
 	
-	//Alex's inputs lol
-	mcm.addSubgoal(3, 12);
-	mcm.addSubgoal(8, 19);
-	mcm.addSubgoal(8, 2);
-	mcm.addSubgoal(14, 13);
-	
-	// Wow This is a tough set of subgoals!!!
+	// I like thses subgoals, they are fun!
 	//mcm.addSubgoal(10, 9);
 	//mcm.addSubgoal(16, 9);
 	//mcm.addSubgoal(13, 1);
@@ -139,27 +133,38 @@ void runMultiCostMap(std::vector<std::vector<std::vector<bool>>> obstacleMap) {
 	mcm.loadObstacleMap(obstacleMap);
 	mcm.makeCostMaps();
 	mcm.runPathfinder();
+	
 	mcm.runCmdVisualizer();
 }
 
 int main() {
 
-	Map mymap = Map();
-	mymap.addGuard(5, 0);
-	mymap.addArcher(15, 16);
-	mymap.addRobin(0, 0);
-	mymap.addTownsfolk(5, 16);
-	mymap.addTownsfolk(8, 10);
-	mymap.addTownsfolk(13, 1);
-	mymap.addTownsfolk(16, 8);
-	mymap.addEnd(19, 19);
+	Map sherwood = Map();
+	sherwood.addGuard(5, 0);
+	sherwood.addArcher(15, 16);
+	sherwood.addRobin(0, 0);
+	sherwood.addTownsfolk(5, 16);
+	sherwood.addTownsfolk(8, 10);
+	sherwood.addTownsfolk(13, 1);
+	sherwood.addTownsfolk(16, 8);
+	sherwood.addEnd(19, 19);
 
-	std::vector<std::vector<std::vector<bool>>> obstacleMap;
-	obstacleMap = mymap.getObstacleMap(100);
+	//std::vector<std::vector<std::vector<bool>>> obstacleMap;
+	//obstacleMap = sherwood.getObstacleMap(100);
+	MultiCostMap mcm = MultiCostMap();
+	//mcm.loadObstacleMap(obstacleMap);
+	mcm.loadParams(sherwood);
+	mcm.runPathfinder();
+	mcm.runCmdVisualizer();
+	sherwood.setRobinPath(mcm.getPath());
 
 	//runCostMap(obstacleMap);
 	//runMultiCostMap(obstacleMap);
-	mymap.runCmdVisualizer();
+	sherwood.runCmdVisualizer();
+
+
+
+
 	system("pause");
 	return 0;
 }

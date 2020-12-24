@@ -254,7 +254,7 @@ void CostMap::runCmdVisualizer() {
 			std::cout << std::endl;
 		}
 		std::cout << "TimeStep = " << node->t << std::endl;
-		Sleep(500);
+		Sleep(sleepms);
 	}
 }
 
@@ -262,3 +262,11 @@ void CostMap::loadObstacleMap(std::vector<std::vector<std::vector<bool>>> map) {
 	obstacleMap = map;
 }
 
+std::list<Point> CostMap::getPointPath() {
+	std::list<Point> pointPath;
+	for (auto& node : path) {
+		pointPath.push_back(Point{ node->x, node->y, node->t });
+	}
+	printNodePath();
+	return pointPath;
+}

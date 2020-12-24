@@ -28,6 +28,21 @@ void MultiCostMap::loadObstacleMap(std::vector<std::vector<std::vector<bool>>> m
 	obstacleMap = map;
 }
 
+void MultiCostMap::loadParams(Map& map) {
+	setStart(map.getRobin().x, map.getRobin().y);
+	for (auto& townsperson : map.getTownsfolk()) {
+		addSubgoal(townsperson.x, townsperson.y);
+	}
+	setEnd(map.getEnd().x, map.getEnd().y);
+	loadObstacleMap(map.getObstacleMap(100));
+	makeGoalPaths();
+	makeCostMaps();
+}
+
+std::list<Point> MultiCostMap::getPath() {
+	return chosenMap->getPointPath();
+}
+
 void MultiCostMap::permute(std::list<Point> str, std::list<Point> out) {
 	// When size of str becomes 0, out has a
 	// permutation (length of out is n)

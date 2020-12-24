@@ -1,7 +1,8 @@
 #pragma once
-
-#include<list>
+#include <list>
 #include <string>
+
+#include "Node.h"
 
 struct Move {
 	int x = 0;
@@ -17,6 +18,7 @@ public:
 
 	void update();
 	void followMoves();
+	void followSteps();
 
 	int getX();
 	int getY();
@@ -24,16 +26,24 @@ public:
 	int getHeight();
 	std::string getSymbol();
 
+	void setSteps(std::list<Point> points);
+
 	bool isAlive = true;
+	int x, y;
+
 
 protected:
-	
-	int x,y;
+	bool loadedMoves = true;
+	bool loadedSteps = false;
+
 	int width, height;
 	int speed;
 	std::string symbol;
 
-	std::list<Move> moves;
+	std::list<Move> moves;			// Move order, displacement based on speed
 	std::list<Move> currentmoves;
+
+	std::list<Point> steps;			// Explicit locatios to be at evey timestep
+	std::list<Point> currentsteps;
 };
 
