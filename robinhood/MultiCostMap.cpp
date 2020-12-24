@@ -34,7 +34,7 @@ void MultiCostMap::loadParams(Map& map) {
 		addSubgoal(townsperson.x, townsperson.y);
 	}
 	setEnd(map.getEnd().x, map.getEnd().y);
-	loadObstacleMap(map.getObstacleMap(100));
+	loadObstacleMap(map.getObstacleMap(map.getMaxTimesteps()));
 	makeGoalPaths();
 	makeCostMaps();
 }

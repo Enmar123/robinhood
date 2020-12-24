@@ -27,6 +27,7 @@ public:
 	Robin const& getRobin();
 	std::list<People> getTownsfolk();
 	End getEnd();
+	int getMaxTimesteps();
 	void setRobinPath(std::list<Point> points);
 
 	void update();

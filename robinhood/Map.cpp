@@ -218,3 +218,7 @@ void Map::runCmdVisualizer() {
 	}
 	gameOver();
 }
+
+int Map::getMaxTimesteps() {
+	return time_step_max;
+}
