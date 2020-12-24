@@ -143,11 +143,8 @@ std::list<Node*> CostMap::getNeighbors(Node* node) {
 	std::list<Node*> neighbors;
 	std::list<Point> points = std::list<Point>({ Point{x, y, t + 1},Point{x + 1, y, t + 1}, Point{x - 1, y, t + 1}, Point{x, y + 1, t + 1}, Point{x, y - 1, t + 1} });
 	
-	//std::cout << "Current points = " << t << ", " << y << ", " << x << std::endl;
 	for (auto& point : points) {
 		if (point.t < t_width) {
-			//std::cout << "Neighbor points = " << point.t << ", " <<  point.y << ", " << point.x << std::endl;
-			//std::cout << "Obstacle Map = " << obstacleMap[point.t][point.y][point.x] << std::endl;
 			if (0 <= point.x && point.x < x_width && 
 				0 <= point.y && point.y < y_width && 
 				(obstacleMap[point.t][point.y][point.x] != 1) &&
@@ -183,14 +180,6 @@ bool CostMap::inOpenList(Node* node) {
 	}
 	return false;
 }
-
-//bool CostMap::inOpenListByComponents(Node* mynode) {
-//	for (auto& node : open) {
-//		if (node->x == mynode->x && node->y == mynode->y && node->t == mynode->t)
-//			return true;
-//	}
-//	return false;
-//}
 
 Node* CostMap::inOpenListByComponents(Node* mynode) {
 	for (auto& node : open) {
@@ -266,7 +255,7 @@ void CostMap::runCmdVisualizer() {
 	}
 }
 
-void CostMap::loadObstacleMap(std::vector<std::vector<std::vector<int>>> map) {
+void CostMap::loadObstacleMap(std::vector<std::vector<std::vector<bool>>> map) {
 	obstacleMap = map;
 }
 

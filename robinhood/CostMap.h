@@ -18,7 +18,7 @@ public:
 	void calculatePath();
 	void evalOpen();  // Evaluates the open set
 	
-	void loadObstacleMap(std::vector<std::vector<std::vector<int>>> map);
+	void loadObstacleMap(std::vector<std::vector<std::vector<bool>>> map);
 	void makeStartNode();
 	
 	void printNodePath();
@@ -27,7 +27,7 @@ public:
 
 	void runCmdVisualizer();
 	
-	std::vector<std::vector<std::vector<int>>> obstacleMap;
+	std::vector<std::vector<std::vector<bool>>> obstacleMap;
 	std::list<Node*> open;
 	Node* endNode = NULL;
 
@@ -52,7 +52,6 @@ private:
 	bool inClosedList(Node* node);
 	bool inOpenList(Node* node);
 	bool inClosedListByComponents(int t, int y, int x);
-	//bool inOpenListByComponents(Node* mynode);
 	Node* inOpenListByComponents(Node* mynode);
 	void backtrackNodePath();
 	

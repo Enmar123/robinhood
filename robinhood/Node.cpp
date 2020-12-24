@@ -24,7 +24,7 @@ Node::Node(int x, int y, int t) {
 	parent = NULL;
 }
 
-// will calc remaining costs if parent node, g_cost, goals, and xyt is available
+// Will calc remaining costs if parent node, g_cost, goals, and xyt is available
 void Node::calculateCosts() {
 	// Calculate the heuristic
 	h_of_goal = abs(goals.front().x - x) + abs(goals.front().y - y);

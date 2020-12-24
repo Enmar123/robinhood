@@ -24,7 +24,7 @@ void MultiCostMap::makeGoalPaths() {
 	permute(subGoals, std::list<Point>());
 }
 
-void MultiCostMap::loadObstacleMap(std::vector<std::vector<std::vector<int>>> map) {
+void MultiCostMap::loadObstacleMap(std::vector<std::vector<std::vector<bool>>> map) {
 	obstacleMap = map;
 }
 

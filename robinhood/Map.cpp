@@ -27,6 +27,7 @@ void Map::update() {
 		gameOver();
 }
 
+// Draws a single frame of the output to the terminal
 void Map::drawCmd() {
 	std::cout << "                    " << std::endl;
 	std::cout << "                    " << std::endl;
@@ -65,9 +66,10 @@ void Map::drawCmd() {
 	}
 }
 
-std::vector<std::vector<std::vector<int>>> Map::getObstacleMap(int time) {
+// Retunrs a 3D obstacle map
+std::vector<std::vector<std::vector<bool>>> Map::getObstacleMap(int time) {
 	// Initialize vector
-	std::vector<std::vector<std::vector<int>>> obstacleMap;
+	std::vector<std::vector<std::vector<bool>>> obstacleMap;
 	obstacleMap.resize(time);
 	for (auto& arrY : obstacleMap) {
 		arrY.resize(y_width);

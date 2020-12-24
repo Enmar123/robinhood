@@ -9,7 +9,7 @@ public:
 	void setStart(int x, int y);
 	void setEnd(int x, int y);
 	void addSubgoal(int x, int y);
-	void loadObstacleMap(std::vector<std::vector<std::vector<int>>> map);
+	void loadObstacleMap(std::vector<std::vector<std::vector<bool>>> map);
 
 	void makeGoalPaths();
 	void makeCostMaps();
@@ -19,7 +19,7 @@ public:
 
 	
 
-	std::vector<std::vector<std::vector<int>>> obstacleMap;
+	std::vector<std::vector<std::vector<bool>>> obstacleMap;
 	std::list<std::list<Point>> goalPaths;
 	std::list<CostMap> costMaps;
 	std::list<Point> subGoals;

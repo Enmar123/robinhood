@@ -23,7 +23,7 @@ public:
 	void addTownsfolk(int x, int y);
 	void addEnd(int x, int y);
 
-	std::vector<std::vector<std::vector<int>>> getObstacleMap(int time);
+	std::vector<std::vector<std::vector<bool>>> getObstacleMap(int time);
 private:
 	unsigned int x_width;
 	unsigned int y_width;
