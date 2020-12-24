@@ -118,13 +118,16 @@ void runMultiCostMap(std::vector<std::vector<std::vector<bool>>> obstacleMap) {
 	mcm.setStart(0, 0);
 	mcm.setEnd(19, 19);
 	
-	mcm.addSubgoal(5, 12);
-	mcm.addSubgoal(8, 10);
-	mcm.addSubgoal(13, 1);
-	mcm.addSubgoal(16, 8);
+	//mcm.addSubgoal(5, 12);
+	//mcm.addSubgoal(8, 10);
+	//mcm.addSubgoal(13, 1);
+	//mcm.addSubgoal(16, 8);
 	
-	mcm.addSubgoal(0, 19);
-	mcm.addSubgoal(19, 0);
+	//Alex's inputs lol
+	mcm.addSubgoal(3, 12);
+	mcm.addSubgoal(8, 19);
+	mcm.addSubgoal(8, 2);
+	mcm.addSubgoal(14, 13);
 	
 	// Wow This is a tough set of subgoals!!!
 	//mcm.addSubgoal(10, 9);
@@ -158,8 +161,8 @@ int main() {
 	std::vector<std::vector<std::vector<bool>>> obstacleMap;
 	obstacleMap = mymap.getObstacleMap(100);
 
-	//runCostMap(obstacleMap);
-	runMultiCostMap(obstacleMap);
+	runCostMap(obstacleMap);
+	//runMultiCostMap(obstacleMap);
 	
 
 	//mymap.drawCmd();

@@ -64,7 +64,7 @@ void CostMap::printGoalPath() {
 	}
 
 // Overloading operator to compare nodes by cost
-bool operator<(Node const& lhs, Node const& rhs) { 
+bool operator<(Node const & lhs, Node const & rhs) {
 	if (lhs.h_cost < rhs.f_cost) return true;
 	if (rhs.f_cost < lhs.f_cost) return false;
 
@@ -85,6 +85,8 @@ void CostMap::calculatePath() {
 			return;
 		}
 		else {
+			std::cout << "Open Set size = " << open.size() << std::endl;
+			std::cout << "Closed Set size = " << closed.size() << std::endl;
 			evalOpen();
 		}
 	}
@@ -94,7 +96,7 @@ void CostMap::calculatePath() {
 void CostMap::evalOpen() {
 	Node* current;
 	current = open.front();
-	std::cout << "Current Pos = (" << current->x << ", " << current->y << ", " << current->t << ")" << std::endl;
+	//std::cout << "Current Pos = (" << current->x << ", " << current->y << ", " << current->t << ")" << std::endl;
 	closed.push_back(current);
 	open.pop_front();
 	// Ending criteria
@@ -118,14 +120,15 @@ void CostMap::calculateNeighborCosts(Node* node) {
 		neighbor->calculateCosts();
 		// this in open list should bechange to by components i think... let me try befor changing
 		Node* existingNode = inOpenListByComponents(neighbor);
-		if (existingNode && neighbor < existingNode) {
-			existingNode->parent    = neighbor->parent;
-			existingNode->goals     = neighbor->goals;
-			existingNode->g_cost    = neighbor->g_cost;
-			existingNode->h_of_goal = neighbor->h_of_goal;
-			existingNode->h_of_path = neighbor->h_of_path;
-			existingNode->h_cost    = neighbor->h_cost;
-			existingNode->f_cost    = neighbor->f_cost;
+		//std::cout << existingNode << std::endl;
+		if (existingNode) {
+			if (neighbor < existingNode) {
+				existingNode = neighbor;
+			}
+			else {
+				// Do nothing
+			}
+			
 		}
 		else {
 			open.push_back(neighbor);
@@ -154,7 +157,7 @@ std::list<Node*> CostMap::getNeighbors(Node* node) {
 			}
 		}
 	}
-	std::cout << "Valid Neighbors = " << neighbors.size() << std::endl;
+	//std::cout << "Valid Neighbors = " << neighbors.size() << std::endl;
 	return neighbors;
 }
 
@@ -251,7 +254,7 @@ void CostMap::runCmdVisualizer() {
 			std::cout << std::endl;
 		}
 		std::cout << "TimeStep = " << node->t << std::endl;
-		Sleep(250);
+		Sleep(500);
 	}
 }
 
