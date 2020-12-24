@@ -74,7 +74,7 @@ void MultiCostMap::runPathfinder() {
 			return;
 		}
 		costMaps.front().evalOpen();
-		costMaps.sort([](CostMap lhs, CostMap rhs) {return lhs.open.front()->f_cost < rhs.open.front()->f_cost; });
+		costMaps.sort([](CostMap &lhs, CostMap &rhs) {return lhs.open.front()->f_cost < rhs.open.front()->f_cost; });
 	}
 }
 

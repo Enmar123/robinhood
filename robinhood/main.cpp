@@ -105,6 +105,22 @@ void runCostMap(std::vector<std::vector<std::vector<int>>> obstacleMap) {
 	//costmap.printNodePath();
 }
 
+void runMultiCostMap(std::vector<std::vector<std::vector<int>>> obstacleMap) {
+	MultiCostMap mcm = MultiCostMap();
+	mcm.setStart(0, 0);
+	mcm.setEnd(19, 19);
+	mcm.addSubgoal(5, 12);
+	mcm.addSubgoal(8, 10);
+	mcm.addSubgoal(13, 1);
+	mcm.addSubgoal(16, 8);
+	mcm.addSubgoal(0, 19);
+	mcm.makeGoalPaths();
+	mcm.loadObstacleMap(obstacleMap);
+	mcm.makeCostMaps();
+	mcm.runPathfinder();
+	mcm.runCmdVisualizer();
+}
+
 int main() {
 	//std::cout << "Hello World" << std::endl;
 	//testArrays();
@@ -124,18 +140,8 @@ int main() {
 	std::vector<std::vector<std::vector<int>>> obstacleMap;
 	obstacleMap = mymap.getObstacleMap(100);
 
-	MultiCostMap mcm = MultiCostMap();
-	mcm.setStart(0, 0);
-	mcm.setEnd(19, 19);
-	mcm.addSubgoal(5, 12);
-	mcm.addSubgoal(8, 10);
-	mcm.addSubgoal(13, 1);
-	mcm.addSubgoal(16, 8);
-	mcm.makeGoalPaths();
-	mcm.loadObstacleMap(obstacleMap);
-	mcm.makeCostMaps();
-	mcm.runPathfinder();
-	mcm.runCmdVisualizer();
+	//runCostMap(obstacleMap);
+	runMultiCostMap(obstacleMap);
 	
 
 	//mymap.drawCmd();

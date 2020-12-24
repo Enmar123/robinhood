@@ -5,25 +5,9 @@
 #include <iostream>
 #include <windows.h>
 
-struct Point {
-	int x;
-	int y;
-	int t;
-};
+#include "Node.h"
 
-class Node {
-public:
-	Node();
-	Node(int x, int y, int t);
 
-	void setParams(int x, int y, int t, Node* parent);
-
-	Node* parent;
-	int x, y, t;
-	int g_cost;
-	int h_cost;
-	int f_cost;
-};
 
 class CostMap {
 public:
@@ -37,7 +21,7 @@ public:
 	void evalOpen();
 	
 	void loadObstacleMap(std::vector<std::vector<std::vector<int>>> map);
-	//std::list<Move> getMoves();
+	void makeStartNode();
 	
 	void printNodePath();
 	void printObstacleMap(int time_t);
@@ -60,7 +44,7 @@ private:
 
 	int x_width = 20;
 	int y_width = 20;
-	int t_width = 100;
+	int t_width = 200;
 
 	std::list<Point> goals;  // will try and reach each goal sequentially
 	std::list<Point> goalsSaved;
@@ -79,13 +63,15 @@ private:
 	
 	void calculateNeighborCosts(Node* node);
 	bool inClosedList(Node* node);
-	bool inClosedListByComponents(int t, int y, int x);
 	bool inOpenList(Node* node);
+	bool inClosedListByComponents(int t, int y, int x);
+	bool inOpenListByComponents(int t, int y, int x);
 	void backtrackNodePath();
 	
 	//void permute(std::list<Point> subGoals, std::list<Point> goalPath);
 
 	int getHeuristic(int x, int y);
+	int getHeuristic2(int x, int y);
 	
 };
 

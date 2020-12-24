@@ -148,6 +148,7 @@
     <ClCompile Include="MultiCostMap.cpp" />
     <ClCompile Include="People.cpp" />
     <ClCompile Include="Robin.cpp" />
+    <ClCompile Include="Node.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Archer.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Guard.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MultiCostMap.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="People.h" />
     <ClInclude Include="Robin.h" />
   </ItemGroup>
