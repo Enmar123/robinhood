@@ -29,24 +29,27 @@ class CostMap {
 public:
 	CostMap();
 	
-	void setGoalPoints(std::list<Point> goals); // includes the start point, eg: std::list<>({Point{0,0}, Point{19,19}}
-	void setStartPoint(int startX, int startY);
+	void setGoalPath(std::list<Point> goals); // includes the start point, eg: std::list<>({Point{0,0}, Point{19,19}}
+	//void setStartPoint(int startX, int startY);
 	void addSubGoal(int x, int y);
 	void addGoal(int x, int y);
 	void calculatePath();
+	void evalOpen();
 	
-	void loadObstacles(std::vector<std::vector<std::vector<int>>> obstalceMap);
+	void loadObstacleMap(std::vector<std::vector<std::vector<int>>> map);
 	//std::list<Move> getMoves();
 	
 	void printNodePath();
 	void printObstacleMap(int time_t);
 	void printGoalPath();
 	void runCmdVisualizer();
-	void makeGoalPaths();
+	//void makeGoalPaths();
 
 	
 	std::vector<std::vector<std::vector<int>>> obstacleMap;
 	//std::vector<std::vector<std::vector<Node>>> nodeMap;
+	std::list<Node*> open;
+	Node* endNode = NULL;
 
 	//void clearNodeMap();
 	void clearObstacleMap();
@@ -65,10 +68,9 @@ private:
 	std::list<Point> subGoals;	// list of subgoal points to reach
 	std::list<std::list<Point>> goalPaths; // All path permutations to iterate through
 
-	std::list<Node*> open;
+	
 	std::list<Node*> closed;
 	std::list<Node*> path;
-	Node* endNode = NULL;
 
 	void initObstacleMap();
 	//void initNodeMap();

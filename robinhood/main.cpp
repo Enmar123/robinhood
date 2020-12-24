@@ -6,6 +6,7 @@
 
 #include "Map.h"
 #include "CostMap.h"
+#include "MultiCostMap.h"
 
 void testMapDisplay() {
 	std::cout << "--------" << std::endl;
@@ -88,6 +89,22 @@ void testCostMap() {
 	costmap.runCmdVisualizer();
 }
 
+void runCostMap(std::vector<std::vector<std::vector<int>>> obstacleMap) {
+	CostMap costmap = CostMap();
+	costmap.loadObstacleMap(obstacleMap);
+	costmap.addGoal(0, 0);
+	costmap.addGoal(5, 12);
+	costmap.addGoal(8, 10);
+	costmap.addGoal(13, 1);
+	costmap.addGoal(16, 8);
+	costmap.addGoal(19, 19);
+	costmap.printGoalPath();
+	costmap.calculatePath();
+	costmap.printNodePath();
+	costmap.runCmdVisualizer();
+	//costmap.printNodePath();
+}
+
 int main() {
 	//std::cout << "Hello World" << std::endl;
 	//testArrays();
@@ -107,21 +124,19 @@ int main() {
 	std::vector<std::vector<std::vector<int>>> obstacleMap;
 	obstacleMap = mymap.getObstacleMap(100);
 
-	CostMap costmap = CostMap();
-	costmap.loadObstacles(obstacleMap);
-	//costmap.setGoalPoints(std::list<Point>({ Point{0,0,0}, Point{5,12,0}, Point{8,10,0}, Point{13,1,0} });
-	costmap.addGoal(0, 0);
-	costmap.addGoal(5, 12);
-	costmap.addGoal(8, 10);
-	costmap.addGoal(13, 1);
-	costmap.addGoal(16, 8);
-	costmap.addGoal(19, 19);
-	//costmap.makeGoalPaths();
-	costmap.printGoalPath();
-	costmap.calculatePath();
-	costmap.printNodePath();
-	costmap.runCmdVisualizer();
-	//costmap.printNodePath();
+	MultiCostMap mcm = MultiCostMap();
+	mcm.setStart(0, 0);
+	mcm.setEnd(19, 19);
+	mcm.addSubgoal(5, 12);
+	mcm.addSubgoal(8, 10);
+	mcm.addSubgoal(13, 1);
+	mcm.addSubgoal(16, 8);
+	mcm.makeGoalPaths();
+	mcm.loadObstacleMap(obstacleMap);
+	mcm.makeCostMaps();
+	mcm.runPathfinder();
+	mcm.runCmdVisualizer();
+	
 
 	//mymap.drawCmd();
 	//while (mymap.gameIsAlive) {

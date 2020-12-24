@@ -32,10 +32,6 @@ CostMap::CostMap() {
 	initObstacleMap();
 	clearObstacleMap();
 	endNode == NULL;
-	//startX = 0;
-	//startY = 0;
-	//endX = 0;
-	//endY = 0;
 }
 
 void CostMap::initObstacleMap() {
@@ -68,7 +64,7 @@ void CostMap::insertTestObstacle() {
 	}
 }
 
-void CostMap::setGoalPoints(std::list<Point> goals) {
+void CostMap::setGoalPath(std::list<Point> goals) {
 	goalsSaved = goals;
 	this->goals = goals;
 	Node* startNode = new Node(goals.front().x, goals.front().y, 0);
@@ -76,30 +72,10 @@ void CostMap::setGoalPoints(std::list<Point> goals) {
 	this->goals.pop_front();
 }
 
-//void CostMap::setStartPoint(int startX, int startY) {
-//	this->startX = startX;
-//	this->startY = startY;
-//	
-//	Node* startNode = new Node(startX, startY, 0);
-//	startNode->g_cost = 0;
-//	startNode->h_cost = getHeuristic(startX, startY);
-//	startNode->f_cost = startNode->g_cost + startNode->h_cost;
-//	open.push_back( startNode );
-//	
-//	//std::cout << "Start = (" << startX << ", " << startY << ")" << std::endl;
-//	//std::cout << "End   = (" << this->endX << ", " << this->endY << ")" << std::endl;
-//}
-
 void CostMap::addSubGoal(int x, int y) {
 	// Ignoring subgoal time, not important for this version.
 	subGoals.push_back(Point{ x,y,0 });
 }
-
-//void CostMap::makeGoalPaths() {
-//	goalPaths.clear();
-//	permute(subGoals, std::list<Point>());
-//	
-//}
 
 void CostMap::addGoal(int x, int y) {
 	// Ignoring subgoal time, not important for this version.
@@ -111,33 +87,6 @@ void CostMap::addGoal(int x, int y) {
 		goals.pop_front();
 	}
 }
-
-//void CostMap::permute(std::list<Point> str, std::list<Point> out) {
-//	// When size of str becomes 0, out has a
-//	// permutation (length of out is n)
-//	if (str.size() == 0) {
-//		out.push_front(Point{ startX, startY, 0 });
-//		out.push_back(Point{ endX, endY, 0 });
-//		goalPaths.push_back(out);
-//		return;
-//	}
-//
-//	// One be one move all characters at
-//	// the beginning of out (or result)
-//	for (int i = 0; i < str.size();  i++) {
-//		// Remove first character from str and
-//		// add it to out
-//		Point point = str.front();
-//		std::list<Point> newOut = out;
-//		str.pop_front();
-//		newOut.push_back(point);
-//		permute(str, newOut);
-//
-//		// Rotate string in a way second character
-//		// moves to the beginning.
-//		str.push_back(point);
-//	}
-//}
 
 void CostMap::printGoalPath() {
 		for (auto& point : goalsSaved) {
@@ -162,33 +111,34 @@ bool compareNodeCosts(Node const& a, Node const& b) {
 bool operator<(Node const& lhs, Node const& rhs) { return compareNodeCosts(lhs, rhs); }
 
 void CostMap::calculatePath() {
-	//open.sort([](Node lhs, Node rhs) {return lhs.h_cost < rhs.h_cost; }); // Sort list by f_cost
-	//open.sort([&](Node lhs, Node rhs) {return compareNodeCosts(lhs, rhs); }); // Sort by f_cost, then h_cost
-	
-	Node* current;
-	while (goals.size() != 0) {
+	while (endNode == NULL) {
 		if (open.size() == 0) {
 			std::cout << "No path To Goal (in specified timeframe)" << std::endl;
 			return;
 		}
-		//std::cout << "Len Open =" << open.size() << std::endl;
-		open.sort([](Node* lhs, Node* rhs) {return (lhs->f_cost < rhs->f_cost || (lhs->f_cost == rhs->f_cost && lhs->h_cost < rhs->h_cost));});
-		current = open.front();
-		std::cout << "Current Pos = (" << current->x << ", " << current->y << ", " << current->t << ")" << std::endl;
-		closed.push_back(current);
-		open.pop_front();
-		if (current->x == goals.front().x && current->y == goals.front().y) { //ending criteria
-			if (goals.size() == 1) {
-				endNode = current;
-				backtrackNodePath();
-				std::cout << "End Node Reached" << std::endl;
-				return;
-			}
-			goals.pop_front();
+		else {
+			evalOpen();
 		}
-		calculateNeighborCosts(current);
-		
 	}
+}
+
+void CostMap::evalOpen() {
+	Node* current;
+	current = open.front();
+	std::cout << "Current Pos = (" << current->x << ", " << current->y << ", " << current->t << ")" << std::endl;
+	closed.push_back(current);
+	open.pop_front();
+	if (current->x == goals.front().x && current->y == goals.front().y) { //ending criteria
+		if (goals.size() == 1) {
+			endNode = current;
+			backtrackNodePath();
+			std::cout << "End Node Reached" << std::endl;
+			return;
+		}
+		goals.pop_front();
+	}
+	calculateNeighborCosts(current);
+	open.sort([](Node* lhs, Node* rhs) {return (lhs->f_cost < rhs->f_cost || (lhs->f_cost == rhs->f_cost && lhs->h_cost < rhs->h_cost)); });
 }
 
 int CostMap::getHeuristic(int x, int y) {
@@ -230,7 +180,6 @@ void CostMap::calculateNeighborCosts(Node* node) {
 }
 
 // Returns valid neibours to a coordiante
-// BUG: currently returns obstacle neighbors
 std::list<Node*> CostMap::getNeighbors(Node* node) {
 	int x = node->x;
 	int y = node->y;
@@ -340,11 +289,12 @@ void CostMap::runCmdVisualizer() {
 			}
 			std::cout << std::endl;
 		}
+		std::cout << "TimeStep = " << node->t << std::endl;
 		Sleep(250);
 	}
 }
 
-void CostMap::loadObstacles(std::vector<std::vector<std::vector<int>>> map) {
+void CostMap::loadObstacleMap(std::vector<std::vector<std::vector<int>>> map) {
 	obstacleMap = map;
 }
 
