@@ -37,14 +37,12 @@ void CostMap::insertTestObstacle() {
 }
 
 void CostMap::setGoalPath(std::list<Point> goals) {
-	goalsSaved = goals;
 	this->goals = goals;
 	makeStartNode();
 }
 
 void CostMap::addGoal(int x, int y) {
 	// Ignoring subgoal time, not important for this version.
-	goalsSaved.push_back(Point{ x,y,0 });
 	goals.push_back(Point{ x,y,0 });
 }
 
@@ -57,29 +55,26 @@ void CostMap::makeStartNode() {
 }
 
 void CostMap::printGoalPath() {
-		for (auto& point : goalsSaved) {
+		for (auto& point : goals) {
 			std::cout << "(" << point.x << ", " << point.y << ") ";
 		}
 		std::cout << std::endl;
 	}
 
-
-
-// used for sorting nodes by cost
-bool compareNodeCosts(Node const& a, Node const& b) {
-
-	if (a.h_cost < b.f_cost) return true;
-	if (b.f_cost < a.f_cost) return false;
+// Overloading operator to compare nodes by cost
+bool operator<(Node const& lhs, Node const& rhs) { 
+	if (lhs.h_cost < rhs.f_cost) return true;
+	if (rhs.f_cost < lhs.f_cost) return false;
 
 	// a=b for primary condition, go to secondary
-	if (a.h_cost < b.h_cost) return true;
-	if (b.h_cost < a.h_cost) return false;
+	if (lhs.h_cost < rhs.h_cost) return true;
+	if (rhs.h_cost < lhs.h_cost) return false;
 
 	return false;
+	//return compareNodeCosts(lhs, rhs); 
 }
 
-bool operator<(Node const& lhs, Node const& rhs) { return compareNodeCosts(lhs, rhs); }
-
+// Run algorithm to calculate path
 void CostMap::calculatePath() {
 	makeStartNode();
 	while (endNode == NULL) {
@@ -93,6 +88,7 @@ void CostMap::calculatePath() {
 	}
 }
 
+// Evaluate the open set of nodes
 void CostMap::evalOpen() {
 	Node* current;
 	current = open.front();
@@ -110,40 +106,7 @@ void CostMap::evalOpen() {
 	open.sort([](Node* lhs, Node* rhs) {return (lhs->f_cost < rhs->f_cost || (lhs->f_cost == rhs->f_cost && lhs->h_cost < rhs->h_cost)); });
 }
 
-int CostMap::getHeuristic(int x, int y) {
-	int currentDist = abs(goals.front().x - x) + abs(goals.front().y - y);
-	// get the remaining path distance 
-	int remainDist = 0;
-	if (goals.size() >= 2) {
-		remainDist += (goals.size() - 1) * 100;
-		//std::vector<Point> goalVec;
-		//for (auto& goal : goals) {
-		//	goalVec.push_back(goal);
-		//}
-		//for (int i = 0 ; i < goalVec.size() - 1; i++) {
-		//	remainDist += abs(goalVec[i+1].x - goalVec[i].x) + abs(goalVec[i + 1].y - goalVec[i].y);
-		//}
-	}
-	return currentDist + remainDist;
-}
-
-int CostMap::getHeuristic2(int x, int y) {
-	int currentDist = abs(goals.front().x - x) + abs(goals.front().y - y);
-	// get the remaining path distance 
-	int remainDist = 0;
-	if (goals.size() >= 2) {
-		remainDist += (goals.size() - 1) * 100;
-		//std::vector<Point> goalVec;
-		//for (auto& goal : goals) {
-		//	goalVec.push_back(goal);
-		//}
-		//for (int i = 0 ; i < goalVec.size() - 1; i++) {
-		//	remainDist += abs(goalVec[i+1].x - goalVec[i].x) + abs(goalVec[i + 1].y - goalVec[i].y);
-		//}
-	}
-	return currentDist + remainDist;
-}
-
+// for every neighbor to node, calculate their costs
 void CostMap::calculateNeighborCosts(Node* node) {
 	std::list<Node*> neighbors = getNeighbors(node);
 	for (auto& neighbor : neighbors) {
@@ -269,7 +232,7 @@ void CostMap::runCmdVisualizer() {
 					}
 
 					int i = 0;
-					for (auto& point : goalsSaved) {
+					for (auto& point : goals) {
 						if (y == point.y && x == point.x) {
 							std::cout << i;
 							goto exitPrintLoop;

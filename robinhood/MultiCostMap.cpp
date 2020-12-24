@@ -19,9 +19,9 @@ void MultiCostMap::addSubgoal(int x, int y) {
 }
 
 void MultiCostMap::makeGoalPaths() {
+	std::cout << "Permuting Goal Paths, please wait..." << std::endl;
 	goalPaths.clear();
 	permute(subGoals, std::list<Point>());
-	
 }
 
 void MultiCostMap::loadObstacleMap(std::vector<std::vector<std::vector<int>>> map) {
@@ -56,6 +56,7 @@ void MultiCostMap::permute(std::list<Point> str, std::list<Point> out) {
 }
 
 void MultiCostMap::makeCostMaps() {
+	std::cout << "Making Costmaps, please wait..." << std::endl;
 	costMaps.clear();
 	for (auto& goalPath : goalPaths) {
 		CostMap costmap = CostMap();
@@ -67,6 +68,7 @@ void MultiCostMap::makeCostMaps() {
 }
 
 void MultiCostMap::runPathfinder() {
+	std::cout << "Finding Path, please wait..." << std::endl;
 	costMaps.sort([](CostMap lhs, CostMap rhs) {return lhs.open.front()->f_cost < rhs.open.front()->f_cost; });
 	while (true) {
 		if (costMaps.front().endNode != NULL) {

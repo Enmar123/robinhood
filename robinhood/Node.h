@@ -19,9 +19,9 @@ public:
 	Node* parent;
 	int x, y, t;
 	int g_cost;
-	int h_of_goal;
-	int h_of_path;
-	std::list<Point> goals;
+	int h_of_goal;          // Cost from current location to next goal
+	int h_of_path;			// Cost of remaining path after next goal
+	std::list<Point> goals; // So each node can independently track the goals
 	int h_cost;
 	int f_cost;
 };
