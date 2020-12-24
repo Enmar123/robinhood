@@ -14,7 +14,7 @@ People::People(int x, int y) : People() {
 	this->y = y;
 }
 
-People::People(int x, int y, int w, int h) {
+People::People(int x, int y, int w, int h) : People() {
 	this->x = x;
 	this->y = y;
 	this->width = w;

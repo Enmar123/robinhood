@@ -23,7 +23,11 @@ public:
 	int getWidth();
 	int getHeight();
 	std::string getSymbol();
+
+	bool isAlive = true;
+
 protected:
+	
 	int x,y;
 	int width, height;
 	int speed;

@@ -143,11 +143,7 @@ void runMultiCostMap(std::vector<std::vector<std::vector<bool>>> obstacleMap) {
 }
 
 int main() {
-	//std::cout << "Hello World" << std::endl;
-	//testArrays();
-	//testSort();
-	//testCostMap();
-	
+
 	Map mymap = Map();
 	mymap.addGuard(5, 0);
 	mymap.addArcher(15, 16);
@@ -161,16 +157,9 @@ int main() {
 	std::vector<std::vector<std::vector<bool>>> obstacleMap;
 	obstacleMap = mymap.getObstacleMap(100);
 
-	runCostMap(obstacleMap);
+	//runCostMap(obstacleMap);
 	//runMultiCostMap(obstacleMap);
-	
-
-	//mymap.drawCmd();
-	//while (mymap.gameIsAlive) {
-	//	mymap.update();
-	//	mymap.drawCmd();
-	//	Sleep(500); //milliseconds
-	//}
+	mymap.runCmdVisualizer();
 	system("pause");
 	return 0;
 }
