@@ -52,7 +52,8 @@ private:
 	bool inClosedList(Node* node);
 	bool inOpenList(Node* node);
 	bool inClosedListByComponents(int t, int y, int x);
-	bool inOpenListByComponents(int t, int y, int x);
+	//bool inOpenListByComponents(Node* mynode);
+	Node* inOpenListByComponents(Node* mynode);
 	void backtrackNodePath();
 	
 };

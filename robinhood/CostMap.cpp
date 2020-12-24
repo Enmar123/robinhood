@@ -26,6 +26,7 @@ void CostMap::clearObstacleMap() {
 	}
 }
 
+// inserts a test obstalce into the obstaclemap
 void CostMap::insertTestObstacle() {
 	int x_pos = 3;
 	int height = 17;
@@ -46,6 +47,7 @@ void CostMap::addGoal(int x, int y) {
 	goals.push_back(Point{ x,y,0 });
 }
 
+// Create starting node and add to open list
 void CostMap::makeStartNode() {
 	Node* startNode = new Node(goals.front().x, goals.front().y, 0);
 	startNode->goals = goals;
@@ -110,23 +112,22 @@ void CostMap::evalOpen() {
 void CostMap::calculateNeighborCosts(Node* node) {
 	std::list<Node*> neighbors = getNeighbors(node);
 	for (auto& neighbor : neighbors) {
-		Node newNode = *neighbor;
-		newNode.parent = node;
-		newNode.goals = node->goals;
-		newNode.g_cost = node->g_cost + 1;
-		newNode.calculateCosts();
+		neighbor->parent = node;
+		neighbor->goals = node->goals;
+		neighbor->g_cost = node->g_cost + 1;
+		neighbor->calculateCosts();
 		// this in open list should bechange to by components i think... let me try befor changing
-		if (inOpenList(neighbor) && *neighbor < newNode ) {
-			// do not replace neighbor
+		Node* existingNode = inOpenListByComponents(neighbor);
+		if (existingNode && neighbor < existingNode) {
+			existingNode->parent    = neighbor->parent;
+			existingNode->goals     = neighbor->goals;
+			existingNode->g_cost    = neighbor->g_cost;
+			existingNode->h_of_goal = neighbor->h_of_goal;
+			existingNode->h_of_path = neighbor->h_of_path;
+			existingNode->h_cost    = neighbor->h_cost;
+			existingNode->f_cost    = neighbor->f_cost;
 		}
 		else {
-			neighbor->parent = newNode.parent;
-			neighbor->goals = newNode.goals;
-			neighbor->g_cost = newNode.g_cost;
-			neighbor->h_of_goal = newNode.h_of_goal;
-			neighbor->h_of_path = newNode.h_of_path;
-			neighbor->h_cost = newNode.h_cost;
-			neighbor->f_cost = newNode.f_cost;
 			open.push_back(neighbor);
 		}
 		
@@ -183,12 +184,20 @@ bool CostMap::inOpenList(Node* node) {
 	return false;
 }
 
-bool CostMap::inOpenListByComponents(int t, int y, int x) {
+//bool CostMap::inOpenListByComponents(Node* mynode) {
+//	for (auto& node : open) {
+//		if (node->x == mynode->x && node->y == mynode->y && node->t == mynode->t)
+//			return true;
+//	}
+//	return false;
+//}
+
+Node* CostMap::inOpenListByComponents(Node* mynode) {
 	for (auto& node : open) {
-		if (node->x == x && node->y == y && node->t == t)
-			return true;
+		if (node->x == mynode->x && node->y == mynode->y && node->t == mynode->t)
+			return node;
 	}
-	return false;
+	return NULL;
 }
 
 void CostMap::backtrackNodePath() {

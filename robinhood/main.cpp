@@ -94,16 +94,16 @@ void runCostMap(std::vector<std::vector<std::vector<int>>> obstacleMap) {
 	costmap.loadObstacleMap(obstacleMap);
 	costmap.addGoal(0, 0);
 	
-	costmap.addGoal(5, 12);
-	costmap.addGoal(8, 10);
-	costmap.addGoal(13, 1);
-	costmap.addGoal(16, 8);
+	//costmap.addGoal(5, 12);
+	//costmap.addGoal(8, 10);
+	//costmap.addGoal(13, 1);
+	//costmap.addGoal(16, 8);
 
 	// Wow This is a tough set of subgoals!!!
-	//costmap.addGoal(10, 9);
-	//costmap.addGoal(16, 9);
-	//costmap.addGoal(13, 1);
-	//costmap.addGoal(13, 17);
+	costmap.addGoal(10, 9);
+	costmap.addGoal(16, 9);
+	costmap.addGoal(13, 1);
+	costmap.addGoal(13, 17);
 	
 	costmap.addGoal(19, 19);
 	costmap.printGoalPath();
