@@ -1,5 +1,22 @@
-# Robinhood #
+# Robinhood
 
-A coding test.
+* Watch Robinhood save the townspeople while doging the guards!
+* Showcases optimal path planning! 
 
-First commit.
+### Usage
+
+- Controlled via changes to the "main.cpp" file 
+- Can edit guard positions and quantity
+- Can edit start, end points
+- Can edit townsfolk positions and quantities
+
+### Display
+
+- Displays solution through the terminal
+
+### Useful Classes
+
+- CostMap
+  - Finds optimal path through a set of sequential goals
+- MultiCostMap
+  - Finds optimal path given start and end goals along with subgoals to reachin any order 
