@@ -20,3 +20,7 @@
   - Finds optimal path through a set of sequential goals
 - MultiCostMap
   - Finds optimal path given start and end goals along with subgoals to reachin any order 
+
+### Sample Output
+
+![robinhood](https://github.com/Enmar123/robinhood/blob/master/readme_images/sample_output.png "terminal")
