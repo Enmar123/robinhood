@@ -1,7 +1,7 @@
 # Robinhood
 
 * Watch Robinhood save the townspeople while doging the guards!
-* Showcases optimal path planning! 
+* Showcases A-star based path planning! 
 
 ### Usage
 
