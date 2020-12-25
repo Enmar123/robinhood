@@ -23,4 +23,4 @@
 
 ### Sample Output
 
-![robinhood](https://github.com/Enmar123/robinhood/tree/master/readme_images/sample_output.png)
+![robinhood](https://github.com/Enmar123/robinhood/tree/master/readme_images/sample_output.PNG)
