@@ -18,11 +18,13 @@ public:
 	bool robinIsAlive = true;
 	bool goalWasReached = false;
 
+	void setStart(int x, int y);
+	void setEnd(int x, int y);
+
 	void addGuard(int x, int y);
 	void addArcher(int x, int y);
-	void addRobin(int x, int y);
 	void addTownsfolk(int x, int y);
-	void addEnd(int x, int y);
+	
 
 	Robin const& getRobin();
 	std::list<People> getTownsfolk();
@@ -56,8 +58,11 @@ private:
 	std::list<Archer> archers;
 	std::list<People> townsfolk;
 	std::list<End> ends;
+
 	void gameOver();
 	void checkCollisions();
+
+	HANDLE  hConsole = GetStdHandle(STD_OUTPUT_HANDLE); // for coloring output text
 
 	template<class T>
 	bool objOccupiesXY(int x, int y, T obj) {

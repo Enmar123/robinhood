@@ -84,14 +84,14 @@ void MultiCostMap::makeCostMaps() {
 
 void MultiCostMap::runPathfinder() {
 	std::cout << "Finding Path, please wait..." << std::endl;
-	costMaps.sort([](CostMap lhs, CostMap rhs) {return lhs.open.front()->f_cost < rhs.open.front()->f_cost; });
 	while (true) {
 		if (costMaps.front().endNode != NULL) {
 			chosenMap = &costMaps.front();
 			return;
 		}
-		costMaps.front().evalOpen();
 		costMaps.sort([](CostMap &lhs, CostMap &rhs) {return lhs.open.front()->f_cost < rhs.open.front()->f_cost; });
+		costMaps.front().evalOpen();
+		
 	}
 }
 

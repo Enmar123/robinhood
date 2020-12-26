@@ -17,7 +17,8 @@ void Map::addArcher(int x, int y) {
 	starting_archers.push_back(Archer(x, y));
 }
 
-void Map::addRobin(int x, int y) {
+void Map::setStart(int x, int y) {
+	robins.clear();
 	robins.push_back(Robin(x, y));
 	starting_robins.push_back(Robin(x, y));
 }
@@ -27,7 +28,8 @@ void Map::addTownsfolk(int x, int y) {
 	starting_townsfolk.push_back(People(x, y));
 }
 
-void Map::addEnd(int x, int y) {
+void Map::setEnd(int x, int y) {
+	ends.clear();
 	ends.push_back(End(x, y));
 	starting_ends.push_back(End(x, y));
 }
@@ -95,33 +97,38 @@ void Map::drawCmd() {
 			for (auto& const archer : archers) {
 				if (objOccupiesXY(i,j,archer)) {
 					icon = archer.getSymbol();
+					SetConsoleTextAttribute(hConsole, 11); // Cyan
 				}
 			}
 			for (auto& const guard : guards) {
 				if (objOccupiesXY(i, j, guard)) {
 					icon = guard.getSymbol();
+					SetConsoleTextAttribute(hConsole, 11); // Cyan
 				}	
 			}
 			for (auto& const townsperson : townsfolk) {
 				if (objOccupiesXY(i, j, townsperson) && townsperson.isAlive) {
 					icon = townsperson.getSymbol();
+					SetConsoleTextAttribute(hConsole, 14); // Yellow
 				}
 			}
 			for (auto& const end : ends) {
 				if (objOccupiesXY(i, j, end)) {
 					icon = end.getSymbol();
+					SetConsoleTextAttribute(hConsole, 12); // Red
 				}
 			}
 			for (auto& const robin : robins) {
 				if (objOccupiesXY(i, j, robin)) {
 					icon = robin.getSymbol();
+					SetConsoleTextAttribute(hConsole, 10); // Green
 				}
 			}
 			std::cout << icon;
+			SetConsoleTextAttribute(hConsole, 7); // Normal Color
 		}
 		std::cout << std::endl;
 	}
-	//std::cout << "Robin Life = " << robinIsAlive << std::endl;
 	std::cout << "Time Step = " << time_step << std::endl;
 	std::cout << "Townsfolk Rescued = " << townsfolkRescued << std::endl;
 }
