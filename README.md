@@ -3,6 +3,10 @@
 * Watch Robinhood save the townspeople while doging the guards!
 * Showcases A-star based path planning! 
 
+### Requirements
+
+- Windows Operating System
+
 ### Usage
 
 - Controlled via changes to the "main.cpp" file 
@@ -23,4 +27,4 @@
 
 ### Sample Output
 
-![robinhood](https://github.com/Enmar123/robinhood/blob/master/readme_images/sample_output.PNG)
+![robinhood](https://github.com/Enmar123/robinhood/blob/master/readme_images/sample_output_color.PNG)
