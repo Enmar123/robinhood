@@ -21,7 +21,7 @@ int main() {
 	sherwood.addTownsfolk(5, 16);	// Default: (5, 16)
 	sherwood.addTownsfolk(8, 10);	// Default: (8, 10)
 	sherwood.addTownsfolk(13, 1);	// Default: (13, 1)
-	sherwood.addTownsfolk(16, 18);	// Default: (16, 8)
+	sherwood.addTownsfolk(16, 8);	// Default: (16, 8)
 	//sherwood.addTownsfolk(19, 0);   // 
 	//sherwood.addTownsfolk(16, 17);  // 
 	//sherwood.addTownsfolk(10, 17);  // Calc time using release ~1 sec for 7 townsfolk

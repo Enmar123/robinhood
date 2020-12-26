@@ -1,5 +1,28 @@
 #include "Map.h"
 
+void ClearScreen() {
+	COORD cursorPosition;	
+	cursorPosition.X = 0;	
+	cursorPosition.Y = 0;	
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
+}
+
+COORD GetConsoleCursorPosition(HANDLE hConsoleOutput) {
+	CONSOLE_SCREEN_BUFFER_INFO cbsi;
+	if (GetConsoleScreenBufferInfo(hConsoleOutput, &cbsi)) {
+		return cbsi.dwCursorPosition;
+	}
+	else {
+		// The function failed. Call GetLastError() for details.
+		COORD invalid = { 0, 0 };
+		return invalid;
+	}
+}
+
+void ReturnToPosition(COORD coord) {
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
 Map::Map() {
 	x_width = 20;
 	y_width = 20;
@@ -62,6 +85,7 @@ void Map::setRobinPath(std::list<Point> points) {
 	robins.front().setSteps(points);
 }
 
+// Update the positions of each object
 void Map::update() {
 	if (time_step < time_step_max) {
 		for (auto& archer : archers) {
@@ -88,8 +112,6 @@ void Map::update() {
 
 // Draws a single frame of the output to the terminal
 void Map::drawCmd() {
-	std::cout << std::endl;
-	std::cout << std::endl;
 	std::cout << std::endl;
 	for (int j = 0; j < y_width; j++) {
 		for (int i = 0; i < x_width; i++) {
@@ -214,10 +236,13 @@ void Map::gameOver() {
 	std::cout << "--------------------------" << std::endl;
 }
 
+// Run the console-based path visualizer
 void Map::runCmdVisualizer() {
+	COORD coord = GetConsoleCursorPosition(hConsole);
 	drawCmd();
 	Sleep(sleepms);
 	while (gameIsAlive) {
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 		time_step++;
 		update();
 		drawCmd();

@@ -267,6 +267,6 @@ std::list<Point> CostMap::getPointPath() {
 	for (auto& node : path) {
 		pointPath.push_back(Point{ node->x, node->y, node->t });
 	}
-	printNodePath();
+	//printNodePath();
 	return pointPath;
 }
