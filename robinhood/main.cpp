@@ -14,14 +14,15 @@ int main() {
 	Map sherwood = Map();
 	sherwood.addGuard(5, 0);		// Default: (5, 0)
 	sherwood.addArcher(15, 16);		// Default: (15, 16)
-	sherwood.addRobin(0, 0);		// Default: (0, 0)
-	sherwood.addTownsfolk(5, 16);	// Default: (5, 16)
-	sherwood.addTownsfolk(8, 10);	// Default: (8, 10)
+	sherwood.addRobin(19, 19);		// Default: (0, 0)
+	sherwood.addTownsfolk(0, 0);	// Default: (5, 16)
+	sherwood.addTownsfolk(16, 9);	// Default: (8, 10)
 	sherwood.addTownsfolk(13, 1);	// Default: (13, 1)
-	sherwood.addTownsfolk(16, 8);	// Default: (16, 8)
-	//sherwood.addTownsfolk(0, 19);   // Calt time ~20 sec
-	//sherwood.addTownsfolk(10, 10);  // Calc time ~2 mins
-	//sherwood.addTownsfolk(10, 16);  // Calc time unknown, estimated at 14 mins
+	sherwood.addTownsfolk(13, 17);	// Default: (16, 8)
+	//sherwood.addTownsfolk(19, 0);   // 
+	//sherwood.addTownsfolk(16, 17);  // 
+	//sherwood.addTownsfolk(10, 17);  // Calc time using release ~2 sec
+	//sherwood.addTownsfolk(16, 3);  // Calc time using release ~20 sec 
 	sherwood.addEnd(19, 19);		// Default: (19, 19)
 	
 	// --- Do not edit this Part ---

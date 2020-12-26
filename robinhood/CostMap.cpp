@@ -1,14 +1,14 @@
 #include "CostMap.h"
 
 CostMap::CostMap() {
-	initObstacleMap();
-	clearObstacleMap();
+	//initObstacleMap();
+	//clearObstacleMap();
 	endNode == NULL;
 }
 
 void CostMap::initObstacleMap() {
-	obstacleMap.resize(t_width);
-	for (auto& arrY : obstacleMap) {
+	obstacleMap->resize(t_width);
+	for (auto& arrY : *obstacleMap) {
 		arrY.resize(y_width);
 		for (auto& arrX : arrY) {
 			arrX.resize(x_width);
@@ -20,7 +20,7 @@ void CostMap::clearObstacleMap() {
 	for (int t = 0; t < t_width; t++) {
 		for (int y = 0; y < y_width; y++) {
 			for (int x = 0; x < x_width; x++) {
-				obstacleMap[t][y][x] = 0;
+				(*obstacleMap)[t][y][x] = 0;
 			}
 		}
 	}
@@ -32,7 +32,7 @@ void CostMap::insertTestObstacle() {
 	int height = 17;
 	for (int t = 0; t < t_width; t++) {
 		for (int y = 0; y < height; y++) {
-			obstacleMap[t][y][x_pos] = 1;
+			(*obstacleMap)[t][y][x_pos] = 1;
 		}
 	}
 }
@@ -150,7 +150,7 @@ std::list<Node*> CostMap::getNeighbors(Node* node) {
 		if (point.t < t_width) {
 			if (0 <= point.x && point.x < x_width && 
 				0 <= point.y && point.y < y_width && 
-				(obstacleMap[point.t][point.y][point.x] != 1) &&
+				((*obstacleMap)[point.t][point.y][point.x] != 1) &&
 				!inClosedListByComponents(point.t, point.y, point.x)) {
 
 				neighbors.push_back(new Node(point.x, point.y, point.t));
@@ -212,7 +212,7 @@ void CostMap::printNodePath() {
 void CostMap::printObstacleMap(int time_t) {
 	for (int y = 0 ; y < y_width ; y++) {
 		for (int x = 0 ; x < x_width ; x++) {
-			std::cout << obstacleMap[time_t][y][x];
+			std::cout << (*obstacleMap)[time_t][y][x];
 		}
 		std::cout << std::endl;
 	}
@@ -241,7 +241,7 @@ void CostMap::runCmdVisualizer() {
 						i++;
 					}
 
-					if (obstacleMap[node->t][y][x] == 1) {
+					if ((*obstacleMap)[node->t][y][x] == 1) {
 						std::cout << "#";
 						break;
 					}
@@ -258,7 +258,7 @@ void CostMap::runCmdVisualizer() {
 	}
 }
 
-void CostMap::loadObstacleMap(std::vector<std::vector<std::vector<bool>>> map) {
+void CostMap::loadObstacleMap(std::vector<std::vector<std::vector<bool>>> * map) {
 	obstacleMap = map;
 }
 

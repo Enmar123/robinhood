@@ -75,7 +75,7 @@ void MultiCostMap::makeCostMaps() {
 	costMaps.clear();
 	for (auto& goalPath : goalPaths) {
 		CostMap costmap = CostMap();
-		costmap.loadObstacleMap(obstacleMap);
+		costmap.loadObstacleMap(&obstacleMap);
 		costmap.setGoalPath(goalPath);
 		costMaps.push_back(costmap);
 
